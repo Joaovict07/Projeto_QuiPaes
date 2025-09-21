@@ -1,7 +1,9 @@
 package org.api.padariaapi.controller;
 
 import org.api.padariaapi.entity.Produto;
+import org.api.padariaapi.repository.ProdutoRepository;
 import org.api.padariaapi.service.ProdutoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,11 +12,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/produtos")
 public class ProdutoController {
-    private ProdutoService produtoService;
 
     public ProdutoController(ProdutoService produtoService) {
         this.produtoService = produtoService;
     }
+
+    private ProdutoService produtoService;
+
 
     @PostMapping
     List<Produto> create(@RequestBody Produto produto){

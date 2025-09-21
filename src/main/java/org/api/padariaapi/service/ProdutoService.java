@@ -1,6 +1,5 @@
 package org.api.padariaapi.service;
 
-//import jakarta.transaction.Transactional;
 import org.api.padariaapi.entity.Produto;
 import org.api.padariaapi.repository.ProdutoRepository;
 import org.springframework.data.domain.Sort;
