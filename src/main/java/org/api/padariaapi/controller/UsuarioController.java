@@ -1,9 +1,12 @@
 package org.api.padariaapi.controller;
 
+import jakarta.validation.Valid;
 import org.api.padariaapi.entity.Usuario;
-import org.api.padariaapi.repository.UsuarioRepository;
+import org.springframework.http.ResponseEntity;
 import org.api.padariaapi.service.UsuarioService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -19,8 +22,10 @@ public class UsuarioController {
 
 
     @PostMapping
-    List<Usuario> create(@RequestBody Usuario usuario){
-        return usuarioService.create(usuario);
+    public ResponseEntity<Usuario> create(@Valid @RequestBody Usuario usuario){
+        Usuario usuarioSalvo = usuarioService.create(usuario);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(usuarioSalvo);
     }
 
     @GetMapping
