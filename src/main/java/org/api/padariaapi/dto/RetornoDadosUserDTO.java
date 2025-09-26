@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class RetornoDadosUserDTO<T> {
-    private String usuario;
     private String nome;
     private String email;
     private String cpfcnpj;
