@@ -1,9 +1,7 @@
 package org.api.padariaapi.controller;
 
 import org.api.padariaapi.entity.Produto;
-import org.api.padariaapi.repository.ProdutoRepository;
 import org.api.padariaapi.service.ProdutoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
