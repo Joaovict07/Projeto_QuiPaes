@@ -1,14 +1,14 @@
 <body>
   <main>
     <header class="menu">
-      <img class="logo" ngSrc="assets/logo.png" alt="icone" height="1080" width="1080"/>
-      <div class="grupo_buttons">
-        <button>PRODUTOS</button>
-        <button>MEUS PEDIDOS</button>
-        <button>PROMOÇÕES</button>
-      </div>
+      <img class="logo" [src]="logoPath" alt="icone" height="100" width="100"/>
+      <section class="grupo_buttons">
+        <button class="buttons">PRODUTOS</button>
+        <button class="buttons">MEUS PEDIDOS</button>
+        <button class="buttons">PROMOÇÕES</button>
+      </section>
       <section class="section_perfil">
-        <img ngSrc="assets/qlementine-icons--user-16.svg" alt="imagem_perfil">
+        <img [src]="personPath" alt="imagem_perfil" class="img_perfil">
         <div> Olá! </div>
       </section>
     </header>
