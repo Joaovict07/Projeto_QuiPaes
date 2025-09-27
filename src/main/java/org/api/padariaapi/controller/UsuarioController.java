@@ -1,11 +1,9 @@
 package org.api.padariaapi.controller;
 
 import jakarta.validation.Valid;
-import org.api.padariaapi.dto.AuthenticationDTO;
-import org.api.padariaapi.dto.RegisterDTO;
-import org.api.padariaapi.dto.RespostaApiDTO;
-import org.api.padariaapi.dto.RetornoDadosUserDTO;
+import org.api.padariaapi.dto.*;
 import org.api.padariaapi.entity.Usuario;
+import org.api.padariaapi.infra.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.api.padariaapi.service.UsuarioService;
@@ -30,6 +28,9 @@ public class UsuarioController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private TokenService tokenService;
+
 
     @PostMapping("/register")
     public ResponseEntity<RespostaApiDTO<RetornoDadosUserDTO>> create(@Valid @RequestBody RegisterDTO registerDTO){
@@ -48,7 +49,9 @@ public class UsuarioController {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @GetMapping
@@ -56,14 +59,5 @@ public class UsuarioController {
         return usuarioService.list();
     }
 
-    @PutMapping
-    List<Usuario> update(Usuario usuario){
-        return usuarioService.update(usuario);
-    }
-
-    @DeleteMapping("{id}")
-    List<Usuario> delete(@PathVariable("id") Long id){
-        return usuarioService.delete(id);
-    }
 }
 
