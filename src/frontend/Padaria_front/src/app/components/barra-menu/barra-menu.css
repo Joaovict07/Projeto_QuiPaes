@@ -14,10 +14,13 @@ body{
 .menu{
   display:flex;
   position:relative;
-  background-color: #FFC07E;
+  background-color: rgba(255,192,126);
+  backdrop-filter: blur(10px);
   height: 15vh;
   margin-top: 0;
   justify-content: space-between;
+  border: 1px solid rgba(255, 192, 126, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .grupo_buttons{

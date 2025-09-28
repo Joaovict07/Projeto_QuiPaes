@@ -1,5 +1,9 @@
+footer{
+  margin-bottom: 2%;
+}
 .rodape{
-  display:flex;
+  position:absolute;
+  padding-bottom: 10px;
   flex-shrink:0;
   color: #554131;
   text-align: center;
@@ -9,7 +13,6 @@
   font-weight: 700;
   line-height: normal;
   justify-content: center;
-  bottom: 5%;
   left: 50%;
   transform: translateX(-50%);
 }
