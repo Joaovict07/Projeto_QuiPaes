@@ -1,5 +1,6 @@
 package org.api.padariaapi.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.api.padariaapi.dto.RegisterDTO;
 import org.api.padariaapi.dto.RetornoDadosUserDTO;
 import org.api.padariaapi.entity.Usuario;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 import java.util.List;
 
@@ -45,6 +47,11 @@ public class UsuarioService {
         return usuarioRepository.findAll(sort);
     }
 
+    public Long findIdByEmail(String email){
+        Usuario usuario = usuarioRepository.findIdByEmail(email).orElseThrow(()-> new EntityNotFoundException("Usuário não encontrado."));
+
+        return usuario.getId();
+    }
     public List<Usuario> update (Usuario usuario){
         usuarioRepository.save(usuario);
         return list();

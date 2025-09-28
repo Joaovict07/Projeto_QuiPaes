@@ -7,6 +7,7 @@ import lombok.*;
 import org.api.padariaapi.dto.RegisterDTO;
 import org.api.padariaapi.entity.enums.FuncaoUsuario;
 import org.api.padariaapi.validators.CPFCNPJ;
+import org.springframework.cglib.core.Local;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -86,6 +87,10 @@ public class Usuario implements UserDetails {
         this.senha = senhaCriptografada; // Recebe a senha JÁ CRIPTOGRAFADA
     }
 
+    //Constructor para login
+    public Usuario(Long id){
+        this.id = id;
+    }
 
     /*Métodos do SpringSecurity*/
 

@@ -3,6 +3,8 @@ package org.api.padariaapi.controller;
 import jakarta.validation.Valid;
 import org.api.padariaapi.dto.*;
 import org.api.padariaapi.entity.Usuario;
+import org.api.padariaapi.infra.LoginSessions.Sessions;
+import org.api.padariaapi.infra.LoginSessions.SessionsRepository;
 import org.api.padariaapi.infra.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @RestController
@@ -31,6 +36,8 @@ public class UsuarioController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private SessionsRepository sessionsRepository;
 
     @PostMapping("/register")
     public ResponseEntity<RespostaApiDTO<RetornoDadosUserDTO>> create(@Valid @RequestBody RegisterDTO registerDTO){
@@ -51,6 +58,17 @@ public class UsuarioController {
 
         var token = tokenService.generateToken((Usuario) auth.getPrincipal());
 
+        var dataLogin = LocalDateTime.now();
+        var dataExpiracao = LocalDateTime.ofInstant(tokenService.getExpirationInstant(token), ZoneOffset.of("-03:00"));
+
+        var idUsuario = usuarioService.findIdByEmail(data.email());
+
+        Usuario usuario = new Usuario(idUsuario);
+
+        Sessions sessions = new Sessions(token, usuario, dataExpiracao);
+
+        sessionsRepository.save(sessions);
+
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
@@ -59,5 +77,6 @@ public class UsuarioController {
         return usuarioService.list();
     }
 
+    /*TODO -PUT BOTÃO DE LOGOUT-*/
 }
 
