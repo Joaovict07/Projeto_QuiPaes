@@ -45,6 +45,9 @@ public class TokenService {
         }
     }
 
+    public Instant getExpirationInstant(String token) {
+        return JWT.decode(token).getExpiresAtAsInstant();
+    }
     private Instant genExpirationDate(){
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
