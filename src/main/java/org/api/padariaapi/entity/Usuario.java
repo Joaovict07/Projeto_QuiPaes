@@ -83,8 +83,8 @@ public class Usuario implements UserDetails {
         this.endereco = dto.endereco();
         this.funcaoUsuario = dto.funcaoUsuario();
         this.email = dto.email();
-        this.cpfCnpj = dto.CPFCNPJ(); // Assumindo que o nome do campo no DTO é CPFCNPJ
-        this.senha = senhaCriptografada; // Recebe a senha JÁ CRIPTOGRAFADA
+        this.cpfCnpj = dto.CPFCNPJ();
+        this.senha = senhaCriptografada;
     }
 
     //Constructor para login

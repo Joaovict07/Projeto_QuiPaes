@@ -1,6 +1,8 @@
 package org.api.padariaapi.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Getter;
 
@@ -8,6 +10,8 @@ import lombok.Getter;
 @Entity
 @Table(name = "quiPaesProduto")
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Produto {
@@ -19,5 +23,7 @@ public class Produto {
     private String descProduto;
     private Double precoProduto;
     private String dataValidade;
+    private boolean flagPromocao;
+    private String urlFoto;
 
 }
