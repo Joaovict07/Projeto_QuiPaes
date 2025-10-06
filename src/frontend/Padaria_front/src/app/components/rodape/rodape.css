@@ -1,18 +1,15 @@
-footer{
-  margin-bottom: 2%;
-}
-.rodape{
-  position:absolute;
-  padding-bottom: 10px;
-  flex-shrink:0;
-  color: #554131;
+footer {
+  padding: 1rem;
+  background-color: rgba(255, 192, 126, 0.3);
   text-align: center;
+}
+
+.rodape {
+  color: #554131;
   font-family: Inter, serif;
-  font-size: 10px;
-  font-style: normal;
+  font-size: 15px;
   font-weight: 700;
   line-height: normal;
-  justify-content: center;
-  left: 50%;
-  transform: translateX(-50%);
+  margin: 0 auto;
+  padding-bottom: 10px;
 }
