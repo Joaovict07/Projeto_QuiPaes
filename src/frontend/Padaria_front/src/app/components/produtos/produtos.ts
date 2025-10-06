@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
+import { Carrossel } from '../carrossel/carrossel';
 
 @Component({
   selector: 'app-produtos',
-  imports: [],
+  imports: [Carrossel],
   templateUrl: './produtos.html',
   styleUrl: './produtos.css'
 })
 export class Produtos {
-
 }
