@@ -34,6 +34,9 @@ export class ProductCarouselComponent implements OnInit {
     gap        : '1rem',
     pagination : false,
     arrows     : true,
+    autoplay: true,
+    interval: 3000,
+    pauseOnHover: true,
     breakpoints: {
       992: { perPage: 3 },
       768: { perPage: 2 },

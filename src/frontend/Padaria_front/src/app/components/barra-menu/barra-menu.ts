@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
   selector: 'app-barra-menu',
   imports: [],
   templateUrl: './barra-menu.html',
+  standalone: true,
   styleUrl: './barra-menu.css'
 })
 export class BarraMenu {
