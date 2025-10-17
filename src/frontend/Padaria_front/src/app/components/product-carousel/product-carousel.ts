@@ -7,6 +7,7 @@ import { Options } from '@splidejs/splide';
 export interface Product {
   id: number;
   name: string;
+  originalPrice: number,
   price: number;
   imageUrl: string;
 }
@@ -49,9 +50,9 @@ export class ProductCarouselComponent implements OnInit {
   ngOnInit(): void {
     // Simulando a busca de produtos
     this.products = [
-      { id: 1, name: 'Pão ', price: 9.90, imageUrl: 'assets/Imagens/baquete.jpg' },
-      { id: 1, name: 'Pão ', price: 9.90, imageUrl: 'assets/Imagens/baquete.jpg' },
-      { id: 1, name: 'Pão ', price: 9.90, imageUrl: 'assets/Imagens/baquete.jpg' }
+      { id: 1, name: 'Pão ', originalPrice: 15.00, price: 9.90, imageUrl: 'assets/Imagens/baquete.jpg' },
+      { id: 1, name: 'Pão ', originalPrice: 15.00, price: 9.90, imageUrl: 'assets/Imagens/baquete.jpg' },
+      { id: 1, name: 'Pão ', originalPrice: 15.00, price: 9.90, imageUrl: 'assets/Imagens/baquete.jpg' }
     ];
   }
 }

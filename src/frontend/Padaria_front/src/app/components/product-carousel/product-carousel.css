@@ -10,6 +10,13 @@
   margin-bottom: 3rem;
 }
 
+.produtos-intro h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4e3620;
+  margin-bottom: 0.5rem;
+}
+
 .produtos-intro p {
   font-size: 1.5rem;
   color: #7b5e43;
@@ -67,6 +74,19 @@
   transition: background-color 0.3s;
 }
 
+.promo-price {
+  font-family: "Inter", serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #b46a28;
+  background-color: #fff1df;
+  /*display: inline-block;*/
+  padding: 0.4rem 0.8rem;
+  /*border-radius: 8px;*/
+  margin-top: 0.5rem;
+  transition: background-color 0.3s;
+  text-decoration: line-through;
+}
 
 Não usado
 /*.buy-button {*/
