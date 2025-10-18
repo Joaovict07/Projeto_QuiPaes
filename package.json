@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "ngx-m-carousel": "^0.0.7"
+  },
+  "devDependencies": {
+    "daisyui": "^5.3.7"
+  }
+}
