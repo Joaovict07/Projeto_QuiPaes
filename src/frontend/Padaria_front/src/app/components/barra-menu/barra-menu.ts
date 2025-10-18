@@ -1,32 +1,30 @@
 import { Component, HostListener } from '@angular/core';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
   selector: 'app-barra-menu',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './barra-menu.html',
   standalone: true,
   styleUrl: './barra-menu.css'
 })
 export class BarraMenu {
-  logoPath = "assets/Imagens/logotipo_sem_fundo.png";
-  personPath = "assets/Imagens/qlementine-icons--user-16.svg"
-  menuActive = false;
+  isCartOpen = false;
+  itemCount = 8;
+  subtotal = 999;
 
-  toggleMenu(): void {
-    this.menuActive = !this.menuActive;
+  toggleCart() {
+    this.isCartOpen = !this.isCartOpen;
   }
 
-  closeMenu(): void {
-    this.menuActive = false;
+  closeCart() {
+    this.isCartOpen = false;
   }
 
-  // Opcional: Fechar ao clicar fora
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
-    if (!target.closest('nav')) {
-      this.menuActive = false;
-    }
+  viewCart() {
+    console.log('Navegando para o carrinho...');
+    // Adicione aqui a navegação: this.router.navigate(['/cart']);
+    this.closeCart();
   }
 }

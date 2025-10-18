@@ -11,9 +11,9 @@ import {LoginConta} from './components/login-conta/login-conta';
   imports: [
     BarraMenu,
     Rodape,
-    // Produtos,
-    // ProductCarouselComponent,
-    // Sobre,
+    Produtos,
+    ProductCarouselComponent,
+    Sobre,
     LoginConta],
   templateUrl: './app.html',
   standalone: true,

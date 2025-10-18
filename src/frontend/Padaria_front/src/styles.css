@@ -2,18 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  padding: 0;
-}/* You can add global styles to this file, and also import other style files */
+/* Fix definitivo para navbar do DaisyUI */
+.navbar {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0.5rem 1rem !important;
+  gap: 0.5rem !important;
+  min-height: 0rem !important;
+}
+
+.navbar-start {
+  flex: 1 1 0% !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+}
+
+.navbar-center {
+  flex: 0 0 auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.navbar-end {
+  flex: 1 1 0% !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+}
+
+/* Fix para menu horizontal */
+.menu-horizontal {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+}
+
+.menu-horizontal > li {
+  display: inline-flex !important;
+}
+
+/* Fix para dropdown não impactar o tamanho da navbar */
+.dropdown {
+  position: relative !important;
+}
+
+.dropdown-content {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  margin-top: 0.5rem !important;
+  border-radius: 0.5rem;
+}
+
+/* Fix para submenu do details */
+details > ul {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  margin-top: 0.5rem !important;
+}
 
 @layer base {
-  * {
-    @apply m-0 p-0 box-border;
-  }
-
   html, body {
-    @apply w-full min-h-screen overflow-x-hidden;
+    @apply m-0 p-0 w-full min-h-screen overflow-x-hidden box-border;
   }
 
   img, video {
