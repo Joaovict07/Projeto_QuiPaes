@@ -15,8 +15,8 @@
 
 .login-section {
   max-width: 35em; /* ajuste o valor */
-  margin: 0 auto;
-  padding: 2em;
+  margin: 5rem auto 4rem auto;
+  padding: 2rem;
   justify-items: center;
   background-color: #fff1df;
   border-radius: 1em;

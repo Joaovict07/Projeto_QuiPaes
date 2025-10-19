@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component} from '@angular/core';
 import { BarraMenu } from './components/barra-menu/barra-menu';
 import {Rodape} from './components/rodape/rodape';
 import { Produtos } from './components/produtos/produtos'

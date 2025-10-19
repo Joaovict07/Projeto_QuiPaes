@@ -1,6 +1,5 @@
-import { Component, HostListener } from '@angular/core';
+import { Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
-
 
 @Component({
   selector: 'app-barra-menu',
@@ -9,7 +8,8 @@ import {CommonModule} from '@angular/common';
   standalone: true,
   styleUrl: './barra-menu.css'
 })
-export class BarraMenu {
+export class BarraMenu{
+  isScrolled = false;
   isCartOpen = false;
   itemCount = 8;
   subtotal = 999;

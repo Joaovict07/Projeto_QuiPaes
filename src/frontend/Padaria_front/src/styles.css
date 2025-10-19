@@ -66,10 +66,49 @@ details > ul {
 
 @layer base {
   html, body {
-    @apply m-0 p-0 w-full min-h-screen overflow-x-hidden box-border;
+    @apply m-0 p-0 w-full overflow-x-hidden box-border;
   }
 
   img, video {
     @apply max-w-full h-auto;
   }
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  padding: 2rem;
+  flex-grow: 1;
+}
+
+footer {
+  padding: 1rem;
+  background-color: #fff8f1;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.rodape {
+  color: #554131;
+  font-family: Inter, serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: normal;
+  margin: 0 auto;
+  padding-bottom: 10px;
 }

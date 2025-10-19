@@ -18,7 +18,7 @@ interface Product {
     <div class="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 p-8">
       <div class="max-w-5xl mx-auto">
         <h1 class="text-4xl font-bold text-center text-amber-900 mb-2">
-          🥖 Nossos Produtos
+          Nossos Produtos
         </h1>
         <p class="text-center text-amber-700 mb-12">
           Produtos frescos direto do forno
