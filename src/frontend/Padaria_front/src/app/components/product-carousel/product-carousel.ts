@@ -20,10 +20,10 @@ interface Product {
   template: `
     <div class="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 p-8">
       <div class="max-w-5xl mx-auto">
-        <h1 class="text-4xl font-bold text-center text-amber-900 mb-2">
+        <h1 class="text-[2rem] font-bold text-center text-amber-900 mb-2" style="font-family: 'Inter', sans-serif;">
           Nossos Produtos
         </h1>
-        <p class="text-center text-amber-700 mb-12">
+        <p class="text-center text-amber-700 mb-12 text-[1.3rem] max-w-[600px] mx-auto" style="font-family: 'Inter', sans-serif;">
           Produtos frescos direto do forno
         </p>
 
