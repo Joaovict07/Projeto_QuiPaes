@@ -1,28 +1,28 @@
 .produtos {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3rem 2rem;
-  padding: 1rem 8rem 5rem 8rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem 1.5rem;
+  padding: 2rem clamp(1.5rem, 8vw, 10rem) 4rem;
   justify-items: center;
   background-color: #fff8f1;
 }
 .produtos-intro {
   grid-column: 1 / -1;
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .produtos-intro h2 {
-  font-size: 2rem;
+  font-size: clamp(1.6rem, 4vw, 2rem);
   font-weight: 700;
   color: #4e3620;
-  margin-bottom: 0.5rem;
 }
 
 .produtos-intro p {
-  font-size: 1.5rem;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
   color: #7b5e43;
-  margin: 0;
+  margin: 0.5rem auto 0;
+  max-width: 600px;
 }
 
 .produto {
@@ -34,7 +34,7 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   width: 100%;
-  max-width: 320px;
+  max-width: 380px;
 }
 
 .produto:hover {
@@ -44,6 +44,7 @@
 
 .produto img {
   width: 100%;
+  aspect-ratio: 4 / 3;
   height: auto;
   border-radius: 12px;
   object-fit: cover;
@@ -51,7 +52,7 @@
 }
 
 .produto h3 {
-  font-family: "Inter", serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.4rem;
   font-weight: 700;
   color: #4e3620;
@@ -59,7 +60,7 @@
 }
 
 .produto h4 {
-  font-family: "Inter", serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.1rem;
   font-weight: 500;
   color: #7b5e43;
@@ -67,7 +68,7 @@
 }
 
 .preco {
-  font-family: "Inter", serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.2rem;
   font-weight: 700;
   color: #b46a28;
@@ -83,16 +84,72 @@
   background-color: #ffd7a3;
 }
 
+/* Responsividade */
 @media (max-width: 1024px) {
   .produtos {
     grid-template-columns: repeat(2, 1fr);
-    padding: 3rem 2rem;
+    padding: 2rem 4rem 3rem 4rem;
+    gap: 2rem 1.5rem;
+  }
+
+  .produtos-intro h2 {
+    font-size: 1.8rem;
+  }
+
+  .produtos-intro p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .produtos {
+    padding: 2rem 3rem;
+    gap: 2rem 1.2rem;
+  }
+
+  .produto {
+    max-width: 100%;
   }
 }
 
 @media (max-width: 600px) {
   .produtos {
     grid-template-columns: 1fr;
-    padding: 2rem 1rem;
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .produtos-intro h2 {
+    font-size: 1.6rem;
+  }
+
+  .produtos-intro p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .produtos {
+    padding: 1.5rem 1rem;
+  }
+
+  .produtos-intro h2 {
+    font-size: 1.5rem;
+  }
+
+  .produto {
+    padding: 1.2rem;
+  }
+
+  .produto h3 {
+    font-size: 1.2rem;
+  }
+
+  .produto h4 {
+    font-size: 1rem;
+  }
+
+  .preco {
+    font-size: 1.1rem;
   }
 }

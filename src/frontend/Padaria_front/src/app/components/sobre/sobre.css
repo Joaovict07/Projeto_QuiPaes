@@ -1,0 +1,185 @@
+.sobre-nos {
+  background-color: #ffffff;
+  text-align: center;
+  padding: 4rem clamp(1.5rem, 8vw, 10rem);
+}
+
+.sobre-nos h2 {
+  font-family: "Inter", sans-serif;
+  color: #4e3620;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.sobre-nos .descricao {
+  font-family: "Inter", sans-serif;
+  color: #7b5e43;
+  font-size: 1.3rem;
+  max-width: 650px;
+  margin: 0.5rem auto 3.5rem;
+  line-height: 1.6;
+}
+
+/* Ícones */
+.icons-sobre {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto 4rem;
+  padding: 0 1rem;
+}
+
+.icon {
+  padding: 2rem 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.icon:hover {
+  transform: translateY(-8px);
+}
+
+.icon img {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 1.2rem;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.icon:hover img {
+  transform: scale(1.1);
+}
+
+.icon h3 {
+  font-family: "Inter", sans-serif;
+  color: #4e3620;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.icon p {
+  font-family: "Inter", sans-serif;
+  color: #7b5e43;
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.7;
+  max-width: 320px;
+  margin: 0.3rem auto 0;
+}
+
+/* Contato */
+.contato {
+  font-family: "Inter", sans-serif;
+  font-size: 1.05rem;
+  color: #4e3620;
+  line-height: 2;
+  padding: 2rem 1rem;
+  background-color: #fff8f1;
+  border-radius: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.contato p {
+  margin: 0.5rem 0;
+}
+
+.contato strong {
+  color: #4e3620;
+  font-weight: 700;
+}
+
+.whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #4e3620;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.whatsapp:hover {
+  color: #b46a28;
+}
+
+.whatsapp img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.whatsapp:hover img {
+  transform: scale(1.15);
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .sobre-nos h2 {
+    font-size: 1.8rem;
+  }
+
+  .sobre-nos .descricao {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sobre-nos {
+    padding: 3rem 1.5rem;
+  }
+
+  .icons-sobre {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .icon {
+    padding: 1.5rem 1rem;
+  }
+
+  .contato {
+    font-size: 0.95rem;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .sobre-nos h2 {
+    font-size: 1.6rem;
+  }
+
+  .sobre-nos .descricao {
+    font-size: 1rem;
+  }
+
+  .sobre-nos {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .sobre-nos .descricao {
+    margin-bottom: 2.5rem;
+  }
+
+  .icon img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sobre-nos h2 {
+    margin-bottom: 0.8rem;
+  }
+
+  .icon h3 {
+    font-size: 1.2rem;
+  }
+
+  .icon p {
+    font-size: 1rem;
+  }
+}
