@@ -26,7 +26,6 @@ export class Produtos implements OnInit{
     this.loading = true;
     this.produtosService.getProdutos().subscribe({
       next: (data) => {
-        console.log('✅ Produtos carregados:', data);
         this.produtos = data;
         this.loading = false;
       },
