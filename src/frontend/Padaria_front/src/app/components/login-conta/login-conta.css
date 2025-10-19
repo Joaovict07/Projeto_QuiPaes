@@ -1,0 +1,54 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.label {
+  white-space: nowrap;
+  color: currentColor;
+  align-items: center;
+  gap: .375rem;
+  /*display: inline-flex;*/
+  font-size: 12px;
+}
+
+.login-section {
+  max-width: 35em; /* ajuste o valor */
+  margin: 5rem auto 4rem auto;
+  padding: 2rem;
+  justify-items: center;
+  background-color: #fff1df;
+  border-radius: 1em;
+  border: 1px solid;
+  border-color: #4E3620;
+}
+
+.login-text {
+  font-family: "Inter", serif;
+  font-weight: 700;
+  color: #4e3620;
+  margin-bottom: 0.2rem;
+  text-align: center;
+}
+
+/* Se precisar estilos diferentes para h1 e p */
+.login-text-h1 {
+  font-size: 2em;
+  /*text-wrap: nowrap;*/
+}
+
+.login-text-p {
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
+.box{
+  display: table-row;
+  gap: 3rem 2rem;
+  padding: 1rem 8rem 5rem 8rem;
+  justify-items: center;
+
+}
+
+

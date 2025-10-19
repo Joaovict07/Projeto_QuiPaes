@@ -1,0 +1,66 @@
+<section class="login-section">
+
+  <div class="login-text" style="padding: 5% 5% 0% 0%;">
+    <h1 class="login-text login-text-h1" style="padding-bottom: 1em;">Acesse sua conta</h1>
+    <p class="login-text login-text-p">Informe os dados da conta</p>
+    <p class="login-text login-text-p" style="font-size: 0.8em; padding-top: 0.5em">Ou <button><span style="text-decoration: underline">registre-se.</span></button></p>
+  </div>
+
+  <div class= "box" style="padding-top: 3em; padding-bottom: 5em">
+    <!--  Login-->
+    <!--input email-->
+    <div class="form-control w-full max-w-xs" style="padding-top: 3em; padding-bottom: 2em">
+      <label class="input input-bordered flex items-center gap-2">
+        <svg
+          width="16"
+          height="16"
+          class="opacity-70 shrink-0"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <g
+            stroke-linejoin="round"
+            stroke-linecap="round"
+            stroke-width="2"
+            fill="none"
+            stroke="currentColor"
+          >
+            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+          </g>
+        </svg>
+
+        <span class="text-sm font-medium shrink-0" style="padding-right: 1em">Email</span>
+
+        <div>
+          <input
+            style="border-radius: 0.2em"
+            type="email"
+            class="grow"
+            placeholder="E-mail*"
+            #emailInput
+            (input)="validateEmail(emailInput.value)"
+          />
+        </div>
+      </label>
+    </div>
+
+    <!--input senha-->
+    <div class="form-control w-full max-w-xs" style="padding-top: 3em; padding-bottom: 2em">
+      <label class="input input-bordered flex items-center gap-2">
+        <svg width="16" height="16" class="opacity-70 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor">
+            <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </g>
+        </svg>
+
+        <span class="text-sm font-medium shrink-0" style="padding-right: 0.7em">Senha</span>
+
+        <div>
+          <input style="border-radius: 0.2em" type="password" class="grow" placeholder="Senha*" />
+        </div>
+      </label>
+    </div>
+  </div>
+</section>

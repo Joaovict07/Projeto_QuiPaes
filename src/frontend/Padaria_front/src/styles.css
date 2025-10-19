@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fix definitivo para navbar do DaisyUI */
+.navbar {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0.5rem 1rem !important;
+  gap: 0.5rem !important;
+  min-height: 0rem !important;
+}
+
+.navbar-start {
+  flex: 1 1 0% !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+}
+
+.navbar-center {
+  flex: 0 0 auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.navbar-end {
+  flex: 1 1 0% !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+}
+
+/* Fix para menu horizontal */
+.menu-horizontal {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+}
+
+.menu-horizontal > li {
+  display: inline-flex !important;
+}
+
+/* Fix para dropdown não impactar o tamanho da navbar */
+.dropdown {
+  position: relative !important;
+}
+
+.dropdown-content {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  margin-top: 0.5rem !important;
+  border-radius: 0.5rem;
+}
+
+/* Fix para submenu do details */
+details > ul {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  margin-top: 0.5rem !important;
+}
+
+@layer base {
+  html, body {
+    @apply m-0 p-0 w-full overflow-x-hidden box-border;
+  }
+
+  img, video {
+    @apply max-w-full h-auto;
+  }
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  padding: 2rem;
+  flex-grow: 1;
+}
+
+footer {
+  padding: 1rem;
+  background-color: #fff8f1;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.rodape {
+  color: #554131;
+  font-family: Inter, serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: normal;
+  margin: 0 auto;
+  padding-bottom: 10px;
+}
