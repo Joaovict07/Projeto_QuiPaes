@@ -6,6 +6,7 @@ interface Product {
   id: number;
   name: string;
   price: string;
+  oldPrice: string;
   image: string;
   description: string;
 }
@@ -18,10 +19,10 @@ interface Product {
     <div class="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 p-8">
       <div class="max-w-5xl mx-auto">
         <h1 class="text-[2rem] font-bold text-center text-amber-900 mb-2" style="font-family: 'Inter', sans-serif;">
-          Nossos Produtos
+          Ofertas Quentinhas
         </h1>
         <p class="text-center text-amber-700 mb-12 text-[1.3rem] max-w-[600px] mx-auto" style="font-family: 'Inter', sans-serif;">
-          Produtos frescos direto do forno
+          Pães e delícias com aquele precinho especial!
         </p>
 
         <!-- Carrossel Principal -->
@@ -63,15 +64,23 @@ interface Product {
               {{ products[currentIndex].description }}
             </p>
             <div class="flex items-center justify-between">
-              <span class="text-[1.2rem] font-bold text-orange-600" style="font-family: 'Inter', sans-serif;">
-                {{ products[currentIndex].price }}
-              </span>
+              <div class="flex items-center gap-3">
+                <span
+                  *ngIf="products[currentIndex].oldPrice"
+                  class="text-[1rem] font-medium text-gray-400 line-through"
+                  style="font-family: 'Inter', sans-serif;"
+                >
+                  {{ products[currentIndex].oldPrice }}
+                </span>
+                <span class="text-[1.2rem] font-bold text-orange-600" style="font-family: 'Inter', sans-serif;">
+                  {{ products[currentIndex].price }}
+                </span>
+              </div>
               <button class="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors duration-200">
                 Adicionar ao Carrinho
               </button>
             </div>
           </div>
-        </div>
 
         <!-- Indicadores -->
         <div class="flex justify-center items-center gap-3">
@@ -96,34 +105,39 @@ export class ProductCarousel {
       id: 1,
       name: 'Pão Francês',
       price: 'R$ 0,80',
+      oldPrice: 'R$ 1,00',
       image: 'assets/Imagens/paofrances.jpg',
       description: 'Crocante e quentinho'
     },
     {
       id: 2,
       name: 'Pão de Queijo',
-      price: 'R$ 8,00',
+      price: 'R$ 3,00',
+      oldPrice: 'R$ 4,50',
       image: 'assets/Imagens/paodequeijo.jpg',
       description: 'Crocante e macio por dentro'
     },
     {
       id: 3,
-      name: 'Bolo de Chocolate',
+      name: 'Bolo de Fubá Cremoso',
       price: 'R$ 28,00',
+      oldPrice: 'R$ 35,00',
       image: 'assets/Imagens/bolo.jpg',
       description: 'Receita tradicional'
     },
     {
       id: 4,
-      name: 'Doce',
+      name: 'Rosca Húngara',
       price: 'R$ 6,00',
+      oldPrice: 'R$ 12,00',
       image: 'assets/Imagens/doce.png',
-      description: 'Macia e nutritiva'
+      description: 'Macia e saborosa'
     },
     {
       id: 5,
-      name: 'Risole de batata',
+      name: 'Esfiha',
       price: 'R$ 4,00',
+      oldPrice: 'R$ 5,50',
       image: 'assets/Imagens/Risole_de_Batata.png',
       description: 'Delicioso'
     }
