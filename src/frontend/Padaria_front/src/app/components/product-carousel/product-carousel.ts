@@ -83,7 +83,7 @@ interface Product {
           </div>
 
         <!-- Indicadores -->
-        <div class="flex justify-center items-center gap-3">
+        <div class="flex justify-center items-center gap-3 pb-5">
           @for (product of products; track product.id; let i = $index) {
             <button
               (click)="setIndex(i)"
