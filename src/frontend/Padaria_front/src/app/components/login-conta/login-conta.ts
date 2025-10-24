@@ -10,17 +10,5 @@ import { CommonModule } from '@angular/common';
 })
 export class LoginConta {
 
-  emailError: string = '';
 
-  validateEmail(email: string) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!email) {
-      this.emailError = '';
-    } else if (!emailRegex.test(email)) {
-      this.emailError = 'Enter valid email address';
-    } else {
-      this.emailError = '';
-    }
-  }
 }

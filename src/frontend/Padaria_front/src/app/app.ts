@@ -1,20 +1,12 @@
 import { Component} from '@angular/core';
 import { BarraMenu } from './components/barra-menu/barra-menu';
+import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {Rodape} from './components/rodape/rodape';
-import { Produtos } from './components/produtos/produtos'
-import {Sobre} from './components/sobre/sobre';
-import {LoginConta} from './components/login-conta/login-conta';
-import {ProductCarousel} from './components/product-carousel/product-carousel';
 
 @Component({
   selector: 'app-root',
   imports: [
-    BarraMenu,
-    Rodape,
-    Produtos,
-    Sobre,
-    LoginConta,
-    ProductCarousel
+    RouterOutlet, RouterLink, RouterLinkActive, BarraMenu, Rodape
   ],
   templateUrl: './app.html',
   standalone: true,
