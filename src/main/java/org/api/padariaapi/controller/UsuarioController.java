@@ -3,8 +3,6 @@ package org.api.padariaapi.controller;
 import jakarta.validation.Valid;
 import org.api.padariaapi.dto.*;
 import org.api.padariaapi.entity.Usuario;
-import org.api.padariaapi.infra.LoginSessions.Sessions;
-import org.api.padariaapi.infra.LoginSessions.SessionsRepository;
 import org.api.padariaapi.infra.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +10,7 @@ import org.api.padariaapi.service.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -36,9 +35,6 @@ public class UsuarioController {
     @Autowired
     private TokenService tokenService;
 
-    @Autowired
-    private SessionsRepository sessionsRepository;
-
     @PostMapping("/register")
     public ResponseEntity<RespostaApiDTO<RetornoDadosUserDTO>> create(@Valid @RequestBody RegisterDTO registerDTO){
         RetornoDadosUserDTO retornoDadosUserDTO = usuarioService.create(registerDTO);
@@ -52,31 +48,56 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
+    public ResponseEntity<RespostaApiDTO<LoginResponseDTO>> login(@RequestBody @Valid AuthenticationDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
-
         var token = tokenService.generateToken((Usuario) auth.getPrincipal());
 
-        var dataLogin = LocalDateTime.now();
-        var dataExpiracao = LocalDateTime.ofInstant(tokenService.getExpirationInstant(token), ZoneOffset.of("-03:00"));
+        LoginResponseDTO loginResponseDTO = usuarioService.findUsuarioByEmail(data.email());
 
-        var idUsuario = usuarioService.findIdByEmail(data.email());
+        loginResponseDTO.setToken(token);
 
-        Usuario usuario = new Usuario(idUsuario);
+        RespostaApiDTO<LoginResponseDTO> resposta200 = new RespostaApiDTO<>(
+                "Login efetuado com sucesso!",
+                loginResponseDTO
+        );
 
-        Sessions sessions = new Sessions(token, usuario, dataExpiracao);
-
-        sessionsRepository.save(sessions);
-
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        return ResponseEntity.status(HttpStatus.OK).body(resposta200);
     }
 
-    @GetMapping
-    List<Usuario> list(){
-        return usuarioService.list();
+    @PutMapping("/atualizar")
+    public ResponseEntity<RespostaApiDTO<LoginResponseDTO>> atualizarCadastro(
+            @RequestBody @Valid AtualizarUsuarioDTO dados,
+            Authentication authentication) {
+
+        String emailUsuarioLogado = authentication.getName();
+
+        try {
+            Usuario usuarioAtualizado = usuarioService.atualizarUsuario(emailUsuarioLogado, dados);
+
+            LoginResponseDTO responseDTO = new LoginResponseDTO(
+                    usuarioAtualizado.getNome(),
+                    usuarioAtualizado.getEmail(),
+                    usuarioAtualizado.getCpfCnpj(),
+                    usuarioAtualizado.getNumeroTelefone(),
+                    usuarioAtualizado.getEndereco()
+            );
+
+            RespostaApiDTO<LoginResponseDTO> resposta = new RespostaApiDTO<>(
+                    "Cadastro atualizado com sucesso!",
+                    responseDTO
+            );
+
+            return ResponseEntity.ok(resposta);
+
+        } catch (RuntimeException e) {
+            RespostaApiDTO<LoginResponseDTO> respostaErro = new RespostaApiDTO<>(
+                    e.getMessage(),
+                    null
+            );
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(respostaErro);
+        }
     }
 
-    /*TODO -PUT BOTÃO DE LOGOUT-*/
 }
 
