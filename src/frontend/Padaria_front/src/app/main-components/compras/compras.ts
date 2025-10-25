@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {Compra, itemCarrinho} from '../../../services/compras/compra';
-import {RouterLink} from '@angular/router';
 
 interface CartItem {
   id: number;
@@ -14,9 +13,7 @@ interface CartItem {
 
 @Component({
   selector: 'app-compras',
-  imports: [
-    RouterLink
-  ],
+  imports: [],
   templateUrl: './compras.html',
   styleUrl: './compras.css'
 })

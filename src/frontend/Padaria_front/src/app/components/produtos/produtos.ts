@@ -26,15 +26,15 @@ export class Produtos implements OnInit{
   adicionarAoCarrinho(produto: any): void {
     const cartItem: itemCarrinho = {
       id: produto.id,
-      name: produto.nomeProduto,
-      price: produto.precoProduto,
+      name: produto.name,
+      price: produto.price,
       quantity: 1,
-      image: produto.urlFoto,
+      image: produto.image,
       unit: 'un'
     };
 
     this.cartService.addToCart(cartItem);
-    alert(`${produto.nomeProduto} adicionado ao carrinho!`);
+    alert(`${produto.name} adicionado ao carrinho!`);
   }
 
   loadProdutos(): void {

@@ -1,7 +1,6 @@
-import { Component, OnInit} from '@angular/core';
+import { Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {provideRouter, RouterLink} from '@angular/router';
-import {Compra} from '../../../services/compras/compra'
 
 @Component({
   selector: 'app-barra-menu',
@@ -10,20 +9,11 @@ import {Compra} from '../../../services/compras/compra'
   standalone: true,
   styleUrl: './barra-menu.css'
 })
-export class BarraMenu implements OnInit{
+export class BarraMenu{
   isScrolled = false;
   isCartOpen = false;
-  itemCount = 0;
-  subtotal = 0;
-
-  constructor(private cartService: Compra){}
-
-  ngOnInit() {
-    this.cartService.cart$.subscribe(() => {
-      this.itemCount = this.cartService.getQuantity();
-      this.subtotal = this.cartService.getSubtotal();
-    });
-  }
+  itemCount = 8;
+  subtotal = 999;
 
   toggleCart() {
     this.isCartOpen = !this.isCartOpen;
