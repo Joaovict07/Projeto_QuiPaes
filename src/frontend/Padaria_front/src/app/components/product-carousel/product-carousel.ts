@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-angular/src/icons';
+import { ProdutosService } from '../../../services/produtos/produtosService';
+import {Compra, itemCarrinho} from '../../../services/compras/compra';
 
 interface Product {
   id: number;
-  name: string;
-  price: string;
-  oldPrice: string;
-  image: string;
-  description: string;
+  cdProduto: string;
+  nomeProduto: string;
+  descProduto: string;
+  precoProduto: number;
+  dataValidade: string;
+  flagPromocao: boolean;
+  urlFoto: string;
 }
 
 @Component({
@@ -19,18 +22,18 @@ interface Product {
     <div class="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 p-8">
       <div class="max-w-5xl mx-auto">
         <h1 class="text-[2rem] font-bold text-center text-amber-900 mb-2" style="font-family: 'Inter', sans-serif;">
-          Ofertas Quentinhas
+          Nossos Produtos
         </h1>
         <p class="text-center text-amber-700 mb-12 text-[1.3rem] max-w-[600px] mx-auto" style="font-family: 'Inter', sans-serif;">
-          Pães e delícias com aquele precinho especial!
+          Produtos frescos direto do forno
         </p>
 
         <!-- Carrossel Principal -->
         <div class="relative bg-white rounded-2xl shadow-2xl overflow-hidden mb-8">
           <div class="relative h-96 bg-gray-200">
             <img
-              [src]="products[currentIndex].image"
-              [alt]="products[currentIndex].name"
+              [src]="products[currentIndex].urlFoto"
+              [alt]="products[currentIndex].nomeProduto"
               class="w-full h-full object-cover"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
@@ -57,33 +60,25 @@ interface Product {
 
           <!-- Informações do Produto -->
           <div class="p-8 bg-white">
-            <h2 class="text-[1.4rem] font-bold text-amber-900 mb-2" style="font-family: 'Inter', sans-serif;">
-              {{ products[currentIndex].name }}
+            <h2 class="text-3xl font-bold text-amber-900 mb-2">
+              {{ products[currentIndex].nomeProduto }}
             </h2>
-            <p class="text-amber-700 text-[1.1rem] font-medium mb-4" style="font-family: 'Inter', sans-serif;">
-              {{ products[currentIndex].description }}
+            <p class="text-amber-700 text-lg mb-4">
+              {{ products[currentIndex].descProduto }}
             </p>
             <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <span
-                  *ngIf="products[currentIndex].oldPrice"
-                  class="text-[1rem] font-medium text-gray-400 line-through"
-                  style="font-family: 'Inter', sans-serif;"
-                >
-                  {{ products[currentIndex].oldPrice }}
-                </span>
-                <span class="text-[1.2rem] font-bold text-orange-600" style="font-family: 'Inter', sans-serif;">
-                  {{ products[currentIndex].price }}
-                </span>
-              </div>
+              <span class="text-2xl font-bold text-orange-600">
+                R$ {{ formatarPreco(products[currentIndex].precoProduto)  }}
+              </span>
               <button class="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors duration-200">
                 Adicionar ao Carrinho
               </button>
             </div>
           </div>
+        </div>
 
         <!-- Indicadores -->
-        <div class="flex justify-center items-center gap-3 pb-5">
+        <div class="flex justify-center items-center gap-3">
           @for (product of products; track product.id; let i = $index) {
             <button
               (click)="setIndex(i)"
@@ -97,51 +92,91 @@ interface Product {
   `,
   styles: []
 })
-export class ProductCarousel {
+
+export class ProductCarousel implements OnInit{
+    loading = false;
+    error = '';
+
+    constructor(private userService: ProdutosService, private cartService: Compra) { }
+
+    adicionarAoCarrinho(produto: any): void {
+      const cartItem: itemCarrinho = {
+        id: produto.id,
+        name: produto.name,
+        price: produto.price,
+        quantity: 1,
+        image: produto.image,
+        unit: 'un'
+      };
+
+      this.cartService.addToCart(cartItem);
+      alert(`${produto.name} adicionado ao carrinho!`);
+    }
+
+    products: Product[] = [];
+
+    ngOnInit(): void {
+      this.loadUsers();
+    }
+
+    loadUsers(): void {
+      this.loading = true;
+      this.userService.getPromos().subscribe({
+        next: (data) => {
+          this.products = data;
+          this.loading = false;
+        },
+        error: (err) => {
+          this.error = 'Erro ao carregar usuários';
+          this.loading = false;
+          console.error(err);
+        }
+      });
+    }
+
+    formatarPreco(preco: number): string {
+      return preco.toFixed(2).replace('.', ',');
+    }
+
   currentIndex = 0;
 
-  products: Product[] = [
-    {
-      id: 1,
-      name: 'Pão Francês',
-      price: 'R$ 0,80',
-      oldPrice: 'R$ 1,00',
-      image: 'assets/Imagens/paofrances.jpg',
-      description: 'Crocante e quentinho'
-    },
-    {
-      id: 2,
-      name: 'Pão de Queijo',
-      price: 'R$ 3,00',
-      oldPrice: 'R$ 4,50',
-      image: 'assets/Imagens/paodequeijo.jpg',
-      description: 'Crocante e macio por dentro'
-    },
-    {
-      id: 3,
-      name: 'Bolo de Fubá Cremoso',
-      price: 'R$ 28,00',
-      oldPrice: 'R$ 35,00',
-      image: 'assets/Imagens/bolo.jpg',
-      description: 'Receita tradicional'
-    },
-    {
-      id: 4,
-      name: 'Rosca Húngara',
-      price: 'R$ 6,00',
-      oldPrice: 'R$ 12,00',
-      image: 'assets/Imagens/doce.png',
-      description: 'Macia e saborosa'
-    },
-    {
-      id: 5,
-      name: 'Esfiha',
-      price: 'R$ 4,00',
-      oldPrice: 'R$ 5,50',
-      image: 'assets/Imagens/Risole_de_Batata.png',
-      description: 'Delicioso'
-    }
-  ];
+  // products: Product[] = [
+  //   {
+  //     id: 1,
+  //     name: 'Pão Francês',
+  //     price: 'R$ 0,80',
+  //     image: 'assets/Imagens/paofrances.jpg',
+  //     description: 'Crocante e quentinho'
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'Pão de Queijo',
+  //     price: 'R$ 8,00',
+  //     image: 'assets/Imagens/paodequeijo.jpg',
+  //     description: 'Crocante e macio por dentro'
+  //   },
+  //   {
+  //     id: 3,
+  //     name: 'Bolo de Chocolate',
+  //     price: 'R$ 28,00',
+  //     image: 'assets/Imagens/bolo.jpg',
+  //     description: 'Receita tradicional'
+  //   },
+  //   {
+  //     id: 4,
+  //     name: 'Doce',
+  //     price: 'R$ 6,00',
+  //     image: 'assets/Imagens/doce.png',
+  //     description: 'Macia e nutritiva'
+  //   },
+  //   {
+  //     id: 5,
+  //     name: 'Risole de batata',
+  //     price: 'R$ 4,00',
+  //     image: 'assets/Imagens/Risole_de_Batata.png',
+  //     description: 'Delicioso'
+  //   }
+  // ];
 
   next(): void {
     this.currentIndex = (this.currentIndex + 1) % this.products.length;

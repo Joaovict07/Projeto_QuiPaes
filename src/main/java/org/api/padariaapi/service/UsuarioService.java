@@ -1,12 +1,17 @@
 package org.api.padariaapi.service;
 
+import jakarta.persistence.EntityNotFoundException;
+import org.api.padariaapi.dto.RegisterDTO;
+import org.api.padariaapi.dto.RetornoDadosUserDTO;
 import org.api.padariaapi.entity.Usuario;
 import org.api.padariaapi.exception.GeneralExceptions;
 import org.api.padariaapi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 import java.util.List;
 
@@ -14,27 +19,27 @@ import java.util.List;
 public class UsuarioService {
 
     @Autowired
-        private UsuarioRepository usuarioRepository;
+        private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository){
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder){
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public Usuario create(Usuario usuario){
-        //Check se email já foi cadastrado
-        if (usuarioRepository.existsByEmail(usuario.getEmail())){
+    public RetornoDadosUserDTO create(RegisterDTO dadosDeCadastro) {
+        if (usuarioRepository.existsByEmail(dadosDeCadastro.email())) {
             throw new GeneralExceptions("O e-mail informado já está em uso.", HttpStatus.CONFLICT);
         }
-
-        //Check se cpf já foi cadastrado
-        if (usuarioRepository.existsByCpfCnpj(usuario.getCpfCnpj())){
-            throw new GeneralExceptions("O cpf/cnpj informado já está em uso.", HttpStatus.CONFLICT);
+        if (usuarioRepository.existsByCpfCnpj(dadosDeCadastro.CPFCNPJ())) {
+            throw new GeneralExceptions("O CPF/CNPJ informado já está em uso.", HttpStatus.CONFLICT);
         }
 
-        //Check se CPF é válido
+        String senhaCriptografada = passwordEncoder.encode(dadosDeCadastro.senha());
+        Usuario novoUsuario = new Usuario(dadosDeCadastro, senhaCriptografada);
 
-
-        return  usuarioRepository.save(usuario);
+        Usuario usuarioSalvo = usuarioRepository.save(novoUsuario);
+        return new RetornoDadosUserDTO(usuarioSalvo);
     }
 
     public List<Usuario> list(){
@@ -42,6 +47,11 @@ public class UsuarioService {
         return usuarioRepository.findAll(sort);
     }
 
+    public Long findIdByEmail(String email){
+        Usuario usuario = usuarioRepository.findIdByEmail(email).orElseThrow(()-> new EntityNotFoundException("Usuário não encontrado."));
+
+        return usuario.getId();
+    }
     public List<Usuario> update (Usuario usuario){
         usuarioRepository.save(usuario);
         return list();

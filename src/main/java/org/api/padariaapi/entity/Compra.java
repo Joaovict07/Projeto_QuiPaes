@@ -6,11 +6,11 @@ import lombok.Getter;
 
 
 @Entity
-@Table(name = "quiPaesVendas")
+@Table(name = "quiPaesCompra")
 
 @Getter
 @Setter
-public class Compras {
+public class Compra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCompra;
