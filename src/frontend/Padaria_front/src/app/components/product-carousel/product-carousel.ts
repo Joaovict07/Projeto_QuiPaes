@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProdutosService } from '../../../services/produtos/produtosService';
+import {Compra, itemCarrinho} from '../../../services/compras/compra';
 
 interface Product {
   id: number;
@@ -96,7 +97,22 @@ export class ProductCarousel implements OnInit{
     loading = false;
     error = '';
 
-    constructor(private userService: ProdutosService) { }
+    constructor(private userService: ProdutosService, private cartService: Compra) { }
+
+    adicionarAoCarrinho(produto: any): void {
+      const cartItem: itemCarrinho = {
+        id: produto.id,
+        name: produto.name,
+        price: produto.price,
+        quantity: 1,
+        image: produto.image,
+        unit: 'un'
+      };
+
+      this.cartService.addToCart(cartItem);
+      alert(`${produto.name} adicionado ao carrinho!`);
+    }
+
     products: Product[] = [];
 
     ngOnInit(): void {
