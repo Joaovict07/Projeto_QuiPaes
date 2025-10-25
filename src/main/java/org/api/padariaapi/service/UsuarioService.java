@@ -1,6 +1,9 @@
 package org.api.padariaapi.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+import org.api.padariaapi.dto.AtualizarUsuarioDTO;
+import org.api.padariaapi.dto.LoginResponseDTO;
 import org.api.padariaapi.dto.RegisterDTO;
 import org.api.padariaapi.dto.RetornoDadosUserDTO;
 import org.api.padariaapi.entity.Usuario;
@@ -28,11 +31,12 @@ public class UsuarioService {
     }
 
     public RetornoDadosUserDTO create(RegisterDTO dadosDeCadastro) {
+
         if (usuarioRepository.existsByEmail(dadosDeCadastro.email())) {
-            throw new GeneralExceptions("Dados inválidos ou já cadastrados.", HttpStatus.BAD_REQUEST);
+            throw new GeneralExceptions("O e-mail informado já está em uso.", HttpStatus.CONFLICT);
         }
         if (usuarioRepository.existsByCpfCnpj(dadosDeCadastro.CPFCNPJ())) {
-            throw new GeneralExceptions("Dados inválidos ou já cadastrados.", HttpStatus.BAD_REQUEST);
+            throw new GeneralExceptions("O CPF/CNPJ informado já está em uso.", HttpStatus.CONFLICT);
         }
 
         String senhaCriptografada = passwordEncoder.encode(dadosDeCadastro.senha());
@@ -47,19 +51,51 @@ public class UsuarioService {
         return usuarioRepository.findAll(sort);
     }
 
-    public Long findIdByEmail(String email){
-        Usuario usuario = usuarioRepository.findIdByEmail(email).orElseThrow(()-> new EntityNotFoundException("Usuário não encontrado."));
+    public LoginResponseDTO findUsuarioByEmail(String email){
 
-        return usuario.getId();
-    }
-    public List<Usuario> update (Usuario usuario){
-        usuarioRepository.save(usuario);
-        return list();
+        LoginResponseDTO usuario = usuarioRepository.findUsuarioByEmail(email);
+
+        return usuario;
     }
 
-    public List<Usuario> delete (Long id){
-        usuarioRepository.deleteById(id);
-        return list();
+    @Transactional
+    public Usuario atualizarUsuario(String emailUsuarioLogado, AtualizarUsuarioDTO dados) {
+        Usuario usuario = (Usuario) usuarioRepository.findByEmail(emailUsuarioLogado);
+
+        if (usuario == null) {
+            throw new RuntimeException("Usuário não encontrado");
+        }
+
+        if (dados.email() != null && !dados.email().equals(emailUsuarioLogado)) {
+            if (usuarioRepository.existsByEmail(dados.email())) {
+                throw new RuntimeException("Email já cadastrado por outro usuário");
+            }
+        }
+
+        if (dados.cpfCnpj() != null && !dados.cpfCnpj().equals(usuario.getCpfCnpj())) {
+            if (usuarioRepository.existsByCpfCnpj(dados.cpfCnpj())) {
+                throw new RuntimeException("CPF/CNPJ já cadastrado por outro usuário");
+            }
+        }
+
+        // Atualizar apenas campos não nulos
+        if (dados.nome() != null && !dados.nome().isBlank()) {
+            usuario.setNome(dados.nome());
+        }
+        if (dados.email() != null && !dados.email().isBlank()) {
+            usuario.setEmail(dados.email());
+        }
+        if (dados.cpfCnpj() != null && !dados.cpfCnpj().isBlank()) {
+            usuario.setCpfCnpj(dados.cpfCnpj());
+        }
+        if (dados.numeroTelefone() != null && !dados.numeroTelefone().isBlank()) {
+            usuario.setNumeroTelefone(dados.numeroTelefone());
+        }
+        if (dados.endereco() != null && !dados.endereco().isBlank()) {
+            usuario.setEndereco(dados.endereco());
+        }
+
+        return usuarioRepository.save(usuario);
     }
 
 }
