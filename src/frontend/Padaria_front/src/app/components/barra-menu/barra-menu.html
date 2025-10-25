@@ -45,10 +45,10 @@
 
         <!-- Badge de quantidade -->
         <span
-          *ngIf="itemCount > 0"
+          *ngIf="this.itemCount > 0"
           class="absolute -top-1 -right-1 bg-red-500 text-[#44372d] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
         >
-          {{ itemCount }}
+          {{ this.itemCount }}
         </span>
       </button>
 
@@ -59,12 +59,12 @@
       >
         <!-- Título -->
         <h3 class="text-black  text-xl font-semibold mb-3">
-          {{ itemCount }} Items
+          {{ this.itemCount }} Items
         </h3>
 
         <!-- Subtotal -->
         <p class="text-black text-sm font-medium mb-4">
-          Subtotal: ${{ subtotal }}
+          Subtotal: ${{ this.subtotal }}
         </p>
 
         <!-- Botão View Cart -->
@@ -72,7 +72,7 @@
           (click)="viewCart()"
           class="w-full bg-[#44372d] hover:bg-[#44372d] text-white font-semibold py-3 rounded-lg transition-colors"
         >
-          View cart
+          Ver Carrinho
         </button>
       </div>
 

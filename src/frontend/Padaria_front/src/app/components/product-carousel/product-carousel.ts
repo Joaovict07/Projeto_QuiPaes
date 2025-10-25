@@ -70,7 +70,7 @@ interface Product {
               <span class="text-2xl font-bold text-orange-600">
                 R$ {{ formatarPreco(products[currentIndex].precoProduto)  }}
               </span>
-              <button class="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors duration-200">
+              <button (click)="adicionarAoCarrinho(products[currentIndex])" class="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors duration-200">
                 Adicionar ao Carrinho
               </button>
             </div>
@@ -102,15 +102,15 @@ export class ProductCarousel implements OnInit{
     adicionarAoCarrinho(produto: any): void {
       const cartItem: itemCarrinho = {
         id: produto.id,
-        name: produto.name,
-        price: produto.price,
+        name: produto.nomeProduto,
+        price: produto.precoProduto,
         quantity: 1,
-        image: produto.image,
+        image: produto.urlFoto,
         unit: 'un'
       };
 
       this.cartService.addToCart(cartItem);
-      alert(`${produto.name} adicionado ao carrinho!`);
+      alert(`${produto.nomeProduto} adicionado ao carrinho!`);
     }
 
     products: Product[] = [];

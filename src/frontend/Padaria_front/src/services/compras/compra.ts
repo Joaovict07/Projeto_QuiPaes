@@ -20,10 +20,12 @@ export class Compra {
   cart$ = this.cartSubject.asObservable()
 
   constructor() {
-    const carrinhoSalvo = localStorage.getItem('cart')
-    if (carrinhoSalvo) {
-      this.itensCarrinho = JSON.parse(carrinhoSalvo)
-      this.cartSubject.next(this.itensCarrinho)
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      const savedCart = localStorage.getItem('cart');
+      if (savedCart) {
+        this.itensCarrinho = JSON.parse(savedCart);
+        this.cartSubject.next(this.itensCarrinho);
+      }
     }
   }
 
@@ -70,6 +72,10 @@ export class Compra {
 
   getTotalItems(): number {
     return this.itensCarrinho.reduce((total, item) => total + item.quantity, 0);
+  }
+
+  getQuantity(): number {
+    return this.itensCarrinho.length
   }
 
   getSubtotal(): number {
