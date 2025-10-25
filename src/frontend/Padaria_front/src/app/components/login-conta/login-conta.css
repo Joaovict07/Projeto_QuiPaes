@@ -1,3 +1,7 @@
+.bg-custom {
+  /*background: linear-gradient(135deg, #f5e6d3 0%, #e8d4ba 100%);*/
+}
+
 .text-custom {
   color: #4e3620;
 }
@@ -5,11 +9,6 @@
 .text-custom-secondary {
   color: #4e3620;
   opacity: 0.8;
-}
-
-.text-custom-footer {
-  color: #4e3620;
-  opacity: 0.7;
 }
 
 .icon-custom {
@@ -20,17 +19,50 @@
 .input-custom {
   border-color: #4e3620;
   color: #4e3620;
+  background: white;
+}
+
+.input-custom::placeholder {
+  color: #4e3620;
+  opacity: 0.4;
 }
 
 .input-custom:focus {
   ring-color: #4e3620;
   border-color: #4e3620;
+  box-shadow: 0 0 0 3px rgba(78, 54, 32, 0.1);
 }
 
 .btn-custom {
   background-color: #4e3620;
 }
 
-.btn-custom:hover {
+.btn-custom:hover:not(:disabled) {
   opacity: 0.9;
+}
+
+.btn-custom:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Animação de shake para o erro */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Animação de spin para loading */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
