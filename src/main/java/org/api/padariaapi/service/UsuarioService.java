@@ -29,10 +29,10 @@ public class UsuarioService {
 
     public RetornoDadosUserDTO create(RegisterDTO dadosDeCadastro) {
         if (usuarioRepository.existsByEmail(dadosDeCadastro.email())) {
-            throw new GeneralExceptions("O e-mail informado já está em uso.", HttpStatus.CONFLICT);
+            throw new GeneralExceptions("Dados inválidos ou já cadastrados.", HttpStatus.BAD_REQUEST);
         }
         if (usuarioRepository.existsByCpfCnpj(dadosDeCadastro.CPFCNPJ())) {
-            throw new GeneralExceptions("O CPF/CNPJ informado já está em uso.", HttpStatus.CONFLICT);
+            throw new GeneralExceptions("Dados inválidos ou já cadastrados.", HttpStatus.BAD_REQUEST);
         }
 
         String senhaCriptografada = passwordEncoder.encode(dadosDeCadastro.senha());
