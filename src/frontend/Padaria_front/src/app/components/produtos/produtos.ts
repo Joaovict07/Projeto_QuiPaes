@@ -3,6 +3,7 @@ import { ProdutosService } from '../../../services/produtos/produtosService';
 import {Produto} from './produtos_interface';
 import {CommonModule} from '@angular/common';
 import {Compra, itemCarrinho} from  '../../../services/compras/compra'
+import { ToastrService } from 'ngx-toastr'
 
 @Component({
   selector: 'app-produtos',
@@ -17,7 +18,7 @@ export class Produtos implements OnInit{
   loading = false;
   error = '';
 
-  constructor(private produtosService: ProdutosService, private cartService: Compra) { }
+  constructor(private toastService: ToastrService, private produtosService: ProdutosService, private cartService: Compra) { }
 
   ngOnInit(): void {
     this.loadProdutos();
@@ -34,7 +35,7 @@ export class Produtos implements OnInit{
     };
 
     this.cartService.addToCart(cartItem);
-    alert(`${produto.nomeProduto} adicionado ao carrinho!`);
+    this.toastService.success(`${produto.nomeProduto} adicionado!`, 'Sucesso!');
   }
 
   loadProdutos(): void {

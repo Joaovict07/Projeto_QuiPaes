@@ -3,11 +3,12 @@ import { BarraMenu } from './components/barra-menu/barra-menu';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {Rodape} from './components/rodape/rodape';
 import {Compras} from './main-components/compras/compras';
+import {PedidosComponent} from './main-components/pedidos/pedidos';
 
 @Component({
   selector: 'app-root',
   imports: [
-    RouterOutlet, RouterLink, RouterLinkActive, BarraMenu, Rodape, Compras
+    RouterOutlet, RouterLink, RouterLinkActive, BarraMenu, Rodape, Compras, PedidosComponent
   ],
   templateUrl: './app.html',
   standalone: true,
