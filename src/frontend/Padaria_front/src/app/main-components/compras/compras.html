@@ -20,7 +20,7 @@
             </svg>
             <h2 class="text-2xl font-bold text-amber-900 mb-2">Carrinho Vazio</h2>
             <p class="text-amber-700 mb-6">Adicione produtos deliciosos ao seu carrinho!</p>
-            <button class="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors">
+            <button routerLink="/home" class="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors">
               Continuar Comprando
             </button>
           </div>
@@ -99,7 +99,7 @@
 
           <!-- Itens -->
           <div class="space-y-3 mb-6">
-            @for (item of cartItems; track item.id) {
+            @for (item of itensCarrinho; track item.id) {
               <div class="flex justify-between text-amber-800">
                 <span>{{ item.name }} ({{ item.quantity }}x)</span>
                 <span class="font-semibold">R$ {{ (item.price * item.quantity).toFixed(2) }}</span>
@@ -136,7 +136,7 @@
             >
               Finalizar Pedido
             </button>
-            <button
+            <button routerLink="/home"
               class="w-full py-3 bg-amber-100 hover:bg-amber-200 text-amber-900 font-semibold rounded-lg transition-colors"
             >
               Continuar Comprando

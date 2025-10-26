@@ -1,24 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {Compra, itemCarrinho} from '../../../services/compras/compra';
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-  unit: string; // 'un', 'kg', etc.
-}
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-compras',
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './compras.html',
   styleUrl: './compras.css'
 })
 export class Compras implements OnInit{
-  cartItems: CartItem[] = [];
+  itensCarrinho: itemCarrinho[] = [];
   deliveryFee = 5.00;
 
   constructor (private cartService: Compra) {}
@@ -26,7 +19,7 @@ export class Compras implements OnInit{
   ngOnInit() {
     // Se inscreve no observable para receber atualizações
     this.cartService.cart$.subscribe(items => {
-      this.cartItems = items;
+      this.itensCarrinho = items;
     });
   }
 
@@ -55,7 +48,7 @@ export class Compras implements OnInit{
   }
 
   checkout(): void {
-    console.log('Finalizando pedido...', this.cartItems);
+    console.log('Finalizando pedido...', this.itensCarrinho);
     alert('Pedido finalizado! Total: R$ ' + this.getTotal().toFixed(2));
     this.cartService.clearCart();
   }
