@@ -43,6 +43,7 @@
           />
         </svg>
 
+
         <!-- Badge de quantidade -->
         <span
           *ngIf="itemCount > 0"
@@ -83,6 +84,8 @@
         class="fixed inset-0 z-40"
       ></div>
     </div>
+    <div class="dropdown">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
     <div class="w-10">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#44372d"
            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -92,5 +95,14 @@
         <circle cx="12" cy="12" r="10"/>
       </svg>
     </div>
+        <ul
+          tabindex="-1"
+          class="menu menu-sm dropdown-content bg-[#FAF3E0] text-[#4e3620] rounded-box z-1 mt-3 w--52 p-2 shadow font">
+          <li><button routerLink="/produtos">Produtos</button></li>
+          <li><a>Pedidos</a></li>
+          <li><button routerLink="/sobre">Sobre</button></li>
+        </ul>
+      </div>
   </div>
+</div>
 </div>

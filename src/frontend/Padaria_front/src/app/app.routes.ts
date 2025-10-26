@@ -4,6 +4,7 @@ import {Sobre} from './components/sobre/sobre';
 import {Produtos} from './components/produtos/produtos';
 import {LoginConta} from './components/login-conta/login-conta';
 import {RegistrarConta} from './components/registrar-conta/registrar-conta';
+import {Compras} from './main-components/compras/compras';
 
 export const routes: Routes = [
   {
