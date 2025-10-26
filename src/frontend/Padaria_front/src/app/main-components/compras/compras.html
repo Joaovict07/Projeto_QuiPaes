@@ -99,7 +99,7 @@
 
           <!-- Itens -->
           <div class="space-y-3 mb-6">
-            @for (item of cartItems; track item.id) {
+            @for (item of itensCarrinho; track item.id) {
               <div class="flex justify-between text-amber-800">
                 <span>{{ item.name }} ({{ item.quantity }}x)</span>
                 <span class="font-semibold">R$ {{ (item.price * item.quantity).toFixed(2) }}</span>

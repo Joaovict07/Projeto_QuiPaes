@@ -2,15 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {Compra, itemCarrinho} from '../../../services/compras/compra';
 import {RouterLink} from '@angular/router';
 
-interface itemCarrinho {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-  unit: string; // 'un', 'kg', etc.
-}
-
 @Component({
   selector: 'app-compras',
   imports: [
