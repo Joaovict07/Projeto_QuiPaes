@@ -1,7 +1,8 @@
 import { Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {Compra} from '../../../services/compras/compra';
+import {UsuarioService} from '../../../services/user/user';
 
 @Component({
   selector: 'app-barra-menu',
@@ -16,13 +17,24 @@ export class BarraMenu implements OnInit{
   itemCount = 0;
   subtotal = 0;
 
-  constructor(private cartService: Compra) {}
+  constructor(private cartService: Compra, private usuarioService: UsuarioService) {}
 
   ngOnInit() {
     this.cartService.cart$.subscribe(() => {
       this.itemCount = this.cartService.getQuantity()
       this.subtotal = this.cartService.getSubtotal()
     })
+  }
+
+  logout(){
+    this.usuarioService.logout();
+  }
+
+  isLoggedIn() : boolean  {
+    if(this.usuarioService.getToken() == null){
+      return false
+    }
+    return true
   }
 
   toggleCart() {

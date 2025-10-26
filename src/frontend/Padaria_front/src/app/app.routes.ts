@@ -5,6 +5,7 @@ import {Produtos} from './components/produtos/produtos';
 import {LoginConta} from './components/login-conta/login-conta';
 import {RegistrarConta} from './components/registrar-conta/registrar-conta';
 import {Compras} from './main-components/compras/compras';
+import {MeuPerfilComponent} from './components/meu-perfil/meu-perfil';
 
 export const routes: Routes = [
   {
@@ -35,5 +36,9 @@ export const routes: Routes = [
   {
     path: 'compras',
     component: Compras
+  },
+  {
+    path: 'meuperfil',
+    component: MeuPerfilComponent
   }
 ];
