@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProdutosService } from '../../../services/produtos/produtosService';
 import {Compra, itemCarrinho} from '../../../services/compras/compra';
+import { ToastrService } from 'ngx-toastr'
 
 interface Product {
   id: number;
@@ -97,7 +98,7 @@ export class ProductCarousel implements OnInit{
     loading = false;
     error = '';
 
-    constructor(private userService: ProdutosService, private cartService: Compra) { }
+    constructor(private toastService: ToastrService, private userService: ProdutosService, private cartService: Compra) { }
 
     adicionarAoCarrinho(produto: any): void {
       const cartItem: itemCarrinho = {
@@ -110,7 +111,7 @@ export class ProductCarousel implements OnInit{
       };
 
       this.cartService.addToCart(cartItem);
-      alert(`${produto.nomeProduto} adicionado ao carrinho!`);
+      this.toastService.success(`${produto.nomeProduto} adicionado!`, 'Sucesso!');
     }
 
     products: Product[] = [];
