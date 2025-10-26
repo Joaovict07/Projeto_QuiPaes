@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject} from 'rxjs';
 
 export interface itemCarrinho {
   id: number;
@@ -20,10 +20,12 @@ export class Compra {
   cart$ = this.cartSubject.asObservable()
 
   constructor() {
-    const carrinhoSalvo = localStorage.getItem('cart')
-    if (carrinhoSalvo) {
-      this.itensCarrinho = JSON.parse(carrinhoSalvo)
-      this.cartSubject.next(this.itensCarrinho)
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      const carrinhoSalvo = localStorage.getItem('cart')
+      if (carrinhoSalvo) {
+        this.itensCarrinho = JSON.parse(carrinhoSalvo)
+        this.cartSubject.next(this.itensCarrinho)
+      }
     }
   }
 
@@ -66,6 +68,10 @@ export class Compra {
 
   getItems(): itemCarrinho[] {
     return this.itensCarrinho;
+  }
+
+  getQuantity(): number {
+    return this.itensCarrinho.length
   }
 
   getTotalItems(): number {
