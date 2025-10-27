@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Compra, itemCarrinho} from '../../../services/compras/compra';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
+import {UsuarioService} from '../../../services/user/user';
 
 @Component({
   selector: 'app-compras',
@@ -14,13 +15,17 @@ export class Compras implements OnInit{
   itensCarrinho: itemCarrinho[] = [];
   deliveryFee = 5.00;
 
-  constructor (private cartService: Compra) {}
+  constructor (private cartService: Compra, private usuarioService: UsuarioService, private router: Router ) {}
 
   ngOnInit() {
     // Se inscreve no observable para receber atualizações
     this.cartService.cart$.subscribe(items => {
       this.itensCarrinho = items;
     });
+
+    if (!this.usuarioService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+    }
   }
 
   increaseQuantity(itemId: number): void {
