@@ -24,6 +24,7 @@ public class Produto {
     private Double precoProduto;
     private String dataValidade;
     private boolean flagPromocao;
+    private int quantidade;
     private String urlFoto;
 
 }
