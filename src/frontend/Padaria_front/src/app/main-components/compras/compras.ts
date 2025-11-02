@@ -1,0 +1,60 @@
+import { Component, OnInit } from '@angular/core';
+import {Compra, itemCarrinho} from '../../../services/compras/compra';
+import {Router, RouterLink} from '@angular/router';
+import {UsuarioService} from '../../../services/user/user';
+
+@Component({
+  selector: 'app-compras',
+  imports: [
+    RouterLink
+  ],
+  templateUrl: './compras.html',
+  styleUrl: './compras.css'
+})
+export class Compras implements OnInit{
+  itensCarrinho: itemCarrinho[] = [];
+  deliveryFee = 5.00;
+
+  constructor (private cartService: Compra, private usuarioService: UsuarioService, private router: Router ) {}
+
+  ngOnInit() {
+    // Se inscreve no observable para receber atualizações
+    this.cartService.cart$.subscribe(items => {
+      this.itensCarrinho = items;
+    });
+
+    if (!this.usuarioService.isAuthenticated()) {
+      this.router.navigate(['/login']);
+    }
+  }
+
+  increaseQuantity(itemId: number): void {
+    this.cartService.increaseQuantity(itemId);
+  }
+
+  decreaseQuantity(itemId: number): void {
+    this.cartService.decreaseQuantity(itemId);
+  }
+
+  removeItem(itemId: number): void {
+    this.cartService.removeItem(itemId);
+  }
+
+  getTotalItems(): number {
+    return this.cartService.getTotalItems();
+  }
+
+  getSubtotal(): number {
+    return this.cartService.getSubtotal();
+  }
+
+  getTotal(): number {
+    return this.getSubtotal() + this.deliveryFee;
+  }
+
+  checkout(): void {
+    console.log('Finalizando pedido...', this.itensCarrinho);
+    alert('Pedido finalizado! Total: R$ ' + this.getTotal().toFixed(2));
+    this.cartService.clearCart();
+  }
+}

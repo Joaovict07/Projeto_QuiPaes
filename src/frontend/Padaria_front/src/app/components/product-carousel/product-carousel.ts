@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProdutosService } from '../../../services/produtos/produtosService';
+import {Compra, itemCarrinho} from '../../../services/compras/compra';
+import { ToastrService } from 'ngx-toastr'
 
 interface Product {
   id: number;
@@ -69,7 +71,7 @@ interface Product {
               <span class="text-2xl font-bold text-orange-600">
                 R$ {{ formatarPreco(products[currentIndex].precoProduto)  }}
               </span>
-              <button class="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors duration-200">
+              <button (click)="adicionarAoCarrinho(products[currentIndex])" class="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors duration-200">
                 Adicionar ao Carrinho
               </button>
             </div>
@@ -96,7 +98,22 @@ export class ProductCarousel implements OnInit{
     loading = false;
     error = '';
 
-    constructor(private userService: ProdutosService) { }
+    constructor(private toastService: ToastrService, private userService: ProdutosService, private cartService: Compra) { }
+
+    adicionarAoCarrinho(produto: any): void {
+      const cartItem: itemCarrinho = {
+        id: produto.id,
+        name: produto.nomeProduto,
+        price: produto.precoProduto,
+        quantity: 1,
+        image: produto.urlFoto,
+        unit: 'un'
+      };
+
+      this.cartService.addToCart(cartItem);
+      this.toastService.success(`${produto.nomeProduto} adicionado!`, 'Sucesso!');
+    }
+
     products: Product[] = [];
 
     ngOnInit(): void {

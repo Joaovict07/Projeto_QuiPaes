@@ -13,6 +13,19 @@
   display: none;
 }
 
+.dropdown-user {
+  position: relative !important;
+}
+
+.dropdown-user .dropdown-content {
+  position: absolute !important;
+  right: 0 !important;
+  left: auto !important;
+  top: 100% !important;
+  bottom: auto !important;
+  margin-top: 0.75rem !important;
+}
+
 .dropdown:focus-within ul {
   display: block;
 }

@@ -12,14 +12,18 @@
       <ul
         tabindex="-1"
         class="menu menu-sm dropdown-content bg-[#FAF3E0] text-[#4e3620] rounded-box z-1 mt-3 w-52 p-2 shadow font">
-        <li><button routerLink="/produtos">Produtos</button></li>
-        <li><a>Pedidos</a></li>
-        <li><button routerLink="/sobre">Sobre</button></li>
+        <li>
+          <button routerLink="/produtos">Produtos</button>
+        </li>
+        <li>
+          <button routerLink="/sobre">Sobre</button>
+        </li>
       </ul>
     </div>
   </div>
   <div class="navbar-center">
-    <a routerLink="/home" class="btn btn-ghost h-22 w-28 cursor-pointer"><img src="assets/Imagens/logotipo-sem-fundo-snake.png" alt="logo"></a>
+    <a routerLink="/home" class="btn btn-ghost h-22 w-28 cursor-pointer"><img
+      src="assets/Imagens/logotipo-sem-fundo-snake.png" alt="logo"></a>
   </div>
   <div class="navbar-end flex">
     <div class="relative inline-block">
@@ -42,6 +46,7 @@
             d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
           />
         </svg>
+
 
         <!-- Badge de quantidade -->
         <span
@@ -68,11 +73,11 @@
         </p>
 
         <!-- Botão View Cart -->
-        <button
-          (click)="viewCart()"
-          class="w-full bg-[#44372d] hover:bg-[#44372d] text-white font-semibold py-3 rounded-lg transition-colors"
+        <button routerLink="/compras"
+                (click)="viewCart()"
+                class="w-full bg-[#44372d] hover:bg-[#44372d] text-white font-semibold py-3 rounded-lg transition-colors"
         >
-          View cart
+          Ver Carrinho
         </button>
       </div>
 
@@ -83,14 +88,29 @@
         class="fixed inset-0 z-40"
       ></div>
     </div>
-    <div class="w-10">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#44372d"
-           stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-           class="lucide lucide-circle-user-round-icon lucide-circle-user-round h-8 w-12">
-        <path d="M18 20a6 6 0 0 0-12 0"/>
-        <circle cx="12" cy="10" r="4"/>
-        <circle cx="12" cy="12" r="10"/>
-      </svg>
+    <div class="dropdown dropdown-end dropdown-user">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+        <div class="w-10">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#44372d"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               class="lucide lucide-circle-user-round h-8 w-8">
+            <path d="M18 20a6 6 0 0 0-12 0"/>
+            <circle cx="12" cy="10" r="4"/>
+            <circle cx="12" cy="12" r="10"/>
+          </svg>
+        </div>
+      </div>
+      <ul  *ngIf="isLoggedIn()" tabindex="-1" class="menu menu-sm dropdown-content bg-[#FAF3E0] text-[#4e3620] rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        <li><button routerLink="/meuperfil">Meu Perfil</button></li>
+        <li><button routerLink="/pedidos">Meus Pedidos</button></li>
+        <li><hr class="my-1 border-[#4e3620]/20"></li>
+        <li><button (click)="logout()">Sair</button></li>
+      </ul>
+
+      <ul  *ngIf="!isLoggedIn()" tabindex="-1" class="menu menu-sm dropdown-content bg-[#FAF3E0] text-[#4e3620] rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        <li><button routerLink="/login">Login</button></li>
+        <li><button routerLink="/register">Registrar</button></li>
+      </ul>
     </div>
   </div>
 </div>
