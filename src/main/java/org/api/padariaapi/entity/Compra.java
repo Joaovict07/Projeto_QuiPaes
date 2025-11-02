@@ -3,6 +3,7 @@ package org.api.padariaapi.entity;
 import jakarta.persistence.*;
 import lombok.Setter;
 import lombok.Getter;
+import org.api.padariaapi.entity.enums.StatusCompra;
 
 
 @Entity
@@ -15,12 +16,8 @@ public class Compra {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCompra;
     private String cdProduto;
-    private Long DataHora;
-    private String Status; //Status tipo "aprovado" ou "cancelado"
-    private String StatusEntrega;
-
-
-
-
-
+    private String cpfCliente;
+    private String DataHora;
+    private StatusCompra statusCompra; //Status tipo "aprovado" ou "cancelado"
+    private int quantidadeComprada;
 }

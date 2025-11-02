@@ -2,6 +2,7 @@ package org.api.padariaapi.repository;
 
 import org.api.padariaapi.entity.Produto;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -23,4 +24,9 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     List<Produto> findProdutoById(@Param ("id") Long id);
 
     List<Produto> findByCdProdutoIn(List<String> codigos);
+
+    @Modifying
+    @Query("UPDATE Produto SET quantidade = quantidade - :qtd WHERE cdProduto = :cd ")
+    int updateCompra(@Param("qtd")  int qtd, @Param("cd") String cd);
+
 }
