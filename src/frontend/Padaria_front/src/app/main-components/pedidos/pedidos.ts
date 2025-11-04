@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
+import { Compra, itemCarrinho } from '../../../services/compras/compra'
 
 interface itemPedido {
   id: number;
@@ -33,8 +36,9 @@ export class PedidosComponent implements OnInit {
   filterStatus: 'all' | 'pending' | 'preparing' | 'ready' | 'delivered' | 'cancelled' = 'all';
   expandedOrders: Set<number> = new Set();
 
+  constructor(private toastService: ToastrService, private compraService: Compra) {}
+
   ngOnInit() {
-    // Dados de exemplo - substitua pela sua API
     this.pedidos = [
       {
         id: 1001,
@@ -94,8 +98,6 @@ export class PedidosComponent implements OnInit {
   getStatusText(status: string): string {
     const statusMap: Record<string, string> = {
       'pending': 'Aguardando',
-      'preparing': 'Em Preparo',
-      'ready': 'Pronto',
       'delivered': 'Entregue',
       'cancelled': 'Cancelado'
     };
@@ -105,8 +107,6 @@ export class PedidosComponent implements OnInit {
   getStatusClass(status: string): string {
     const classMap: Record<string, string> = {
       'pending': 'bg-yellow-100 text-yellow-800',
-      'preparing': 'bg-blue-100 text-blue-800',
-      'ready': 'bg-green-100 text-green-800',
       'delivered': 'bg-gray-100 text-gray-800',
       'cancelled': 'bg-red-100 text-red-800'
     };
@@ -123,42 +123,60 @@ export class PedidosComponent implements OnInit {
     }).format(date);
   }
 
-  getProgressWidth(status: string): string {
-    const widthMap: Record<string, string> = {
-      'pending': '0%',
-      'preparing': '33%',
-      'ready': '66%',
-      'delivered': '100%'
-    };
-    return widthMap[status] || '0%';
-  }
-
-  getStepActive(pedidoStatus: string, stepStatus: string): boolean {
-    const statusPedido = ['pending', 'preparing', 'ready', 'delivered'];
-    const pedidoIndex = statusPedido.indexOf(pedidoStatus);
-    const stepIndex = statusPedido.indexOf(stepStatus);
-    return pedidoIndex >= stepIndex;
-  }
-
-  cancelOrder(pedidoId: number): void {
+  async cancelOrder(pedidoId: number) {
     const pedido = this.pedidos.find(o => o.id === pedidoId);
-    if (pedido && confirm('Tem certeza que deseja cancelar este pedido?')) {
+    const result = await Swal.fire({
+      title: "Cancelar Pedido?",
+      text: "Tem certeza que deseja cancelar este pedido?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#f97316",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Cancelar",
+      cancelButtonText: "Manter este pedido"
+    })
+    if (pedido && result.isConfirmed) {
       pedido.status = 'cancelled';
-      console.log('Pedido cancelado:', pedidoId);
+      this.toastService.success("Pedido Cancelado com sucesso", "Sucesso")
     }
   }
 
-  viewOrderDetails(pedidoId: number): void {
-    console.log('Ver detalhes do pedido:', pedidoId);
-    // Navegue para página de detalhes ou abra modal
+  async deliveredOrder(pedidoId: number){
+    const pedido = this.pedidos.find(o => o.id === pedidoId);
+    const result = await Swal.fire({
+      title: "Pedido entregue?",
+      text: "O seu pedido foi entregue?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#f97316",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Foi entregue",
+      cancelButtonText: "Não, foi engano"
+    })
+
+    if (pedido && result.isConfirmed) {
+      pedido.status = 'delivered';
+      this.toastService.success("O status do pedido foi atualizado para entregue", "Sucesso")
+    }
   }
 
   reorder(pedidoId: number): void {
     const pedido = this.pedidos.find(o => o.id === pedidoId);
     if (pedido) {
-      console.log('Pedindo novamente:', pedido);
+      pedido.items.forEach(item => {
+        const itemCarrinho: itemCarrinho = {
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          image: item.image,
+          unit: 'un'
+        }
 
-      alert('Itens adicionados ao carrinho!');
+        this.compraService.addToCart(itemCarrinho)
+      })
+
+      this.toastService.success("Os itens do pedido foram adicionados ao carrinho", "Sucesso")
     }
   }
 
