@@ -29,7 +29,6 @@ interface Product {
           Produtos frescos direto do forno
         </p>
 
-        <!-- Carrossel Principal -->
         <div class="relative bg-white rounded-2xl shadow-2xl overflow-hidden mb-8">
           <div class="relative h-96 bg-gray-200">
             <img
@@ -40,7 +39,6 @@ interface Product {
             <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
           </div>
 
-          <!-- Botões de Navegação -->
           <button
             (click)="prev()"
             class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-amber-900 p-3 rounded-full transition-all duration-200 hover:scale-110 z-10"
@@ -59,7 +57,6 @@ interface Product {
             </svg>
           </button>
 
-          <!-- Informações do Produto -->
           <div class="p-8 bg-white">
             <h2 class="text-3xl font-bold text-amber-900 mb-2">
               {{ products[currentIndex].nomeProduto }}
@@ -103,6 +100,7 @@ export class ProductCarousel implements OnInit{
     adicionarAoCarrinho(produto: any): void {
       const cartItem: itemCarrinho = {
         id: produto.id,
+        cdProduto: produto.cdProduto,
         name: produto.nomeProduto,
         price: produto.precoProduto,
         quantity: 1,

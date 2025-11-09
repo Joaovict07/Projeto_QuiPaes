@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, map, Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Produto, ProdutoResponse} from '../../app/components/produtos/produtos_interface';
+import {Pedido, itemPedido} from '../../app/main-components/pedidos/pedidos'
+import { UsuarioService } from '../../services/user/user';
+import {PedidoResponse, PedidosRequest, RespostaApi} from '../../app/models/pedidos.model';
 
 export interface itemCarrinho {
   id: number;
+  cdProduto: string;
   name: string;
   price: number;
   quantity: number;
@@ -16,10 +22,12 @@ export interface itemCarrinho {
 export class Compra {
   private itensCarrinho: itemCarrinho[] = []
   private cartSubject = new BehaviorSubject<itemCarrinho[]>(this.itensCarrinho)
+  private apiUrl = "http://localhost:8080/compras"
+  private cpfCnpj = '';
 
   cart$ = this.cartSubject.asObservable()
 
-  constructor() {
+  constructor(private http: HttpClient, private user: UsuarioService) {
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
       const carrinhoSalvo = localStorage.getItem('cart')
       if (carrinhoSalvo) {
@@ -27,6 +35,21 @@ export class Compra {
         this.cartSubject.next(this.itensCarrinho)
       }
     }
+  }
+
+  getPedidos(): Observable<Pedido[] | undefined> {
+    this.cpfCnpj = this.user.getUsuario().cpfCnpj
+    return this.http.get<PedidoResponse>(`${this.apiUrl}?cpf=${this.cpfCnpj}`).pipe(
+      map(response => response.dados)
+    );
+  }
+
+  postPedidos(dados: PedidosRequest): Observable<RespostaApi<PedidoResponse>> {
+    console.log("Dados:", dados)
+    return this.http.post<RespostaApi<PedidoResponse>>(
+      `${this.apiUrl}`,
+      dados
+    )
   }
 
   addToCart(product: itemCarrinho): void {

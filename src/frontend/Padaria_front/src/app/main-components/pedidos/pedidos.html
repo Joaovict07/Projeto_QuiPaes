@@ -20,22 +20,28 @@
         Todos
       </button>
       <button
-        (click)="filterStatus = 'pending'"
+        (click)="filterStatus = 'Pendente'"
         [class]="'px-4 py-2 rounded-lg font-semibold transition-colors whitespace-nowrap ' +
-              (filterStatus === 'pending' ? 'bg-orange-500 text-white' : 'bg-white text-amber-900 hover:bg-amber-100')"
+              (filterStatus === 'Pendente' ? 'bg-orange-500 text-white' : 'bg-white text-amber-900 hover:bg-amber-100')"
       >
         Pendentes
       </button>
       <button
-        (click)="filterStatus = 'delivered'"
+        (click)="filterStatus = 'Entregue'"
         [class]="'px-4 py-2 rounded-lg font-semibold transition-colors whitespace-nowrap ' +
-              (filterStatus === 'delivered' ? 'bg-orange-500 text-white' : 'bg-white text-amber-900 hover:bg-amber-100')"
+              (filterStatus === 'Entregue' ? 'bg-orange-500 text-white' : 'bg-white text-amber-900 hover:bg-amber-100')"
       >
         Entregues
       </button>
+      <button
+        (click)="filterStatus = 'Cancelado'"
+        [class]="'px-4 py-2 rounded-lg font-semibold transition-colors whitespace-nowrap ' +
+              (filterStatus === 'Cancelado' ? 'bg-orange-500 text-white' : 'bg-white text-amber-900 hover:bg-amber-100')"
+      >
+        Cancelados
+      </button>
     </div>
 
-    <!-- Lista de Pedidos -->
     @if (getFilteredOrders().length === 0) {
       <div class="bg-white rounded-2xl shadow-lg p-12 text-center">
         <svg class="w-24 h-24 mx-auto text-amber-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,7 +57,6 @@
       <div class="space-y-6">
         @for (order of getFilteredOrders(); track order.id) {
           <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-            <!-- Header do Pedido -->
             <div class="bg-gradient-to-r from-amber-100 to-orange-100 p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
                 <div class="flex items-center gap-3 mb-2">
@@ -75,9 +80,8 @@
               </div>
             </div>
 
-            <!-- Itens do Pedido -->
             <div class="p-6">
-              <!-- Botão Expandir/Retrair -->
+
               <button
                 (click)="toggleOrderExpansion(order.id)"
                 class="w-full flex items-center justify-between p-3 bg-amber-50 hover:bg-amber-100 rounded-lg transition-colors mb-4"
@@ -95,7 +99,6 @@
                 </svg>
               </button>
 
-              <!-- Lista de Itens (Expansível) -->
               @if (isOrderExpanded(order.id)) {
                 <div class="space-y-4 mb-6">
                   @for (item of order.items; track item.id) {
@@ -121,7 +124,6 @@
                 </div>
               }
 
-              <!-- Detalhes do Valor -->
               @if(isOrderExpanded(order.id)) {
                 <div class="border-t border-amber-200 mt-6 pt-4 space-y-2">
                   <div class="flex justify-between text-amber-800">
@@ -139,9 +141,14 @@
                 </div>
               }
 
-              <!-- Ações -->
               <div class="mt-6 flex gap-3">
-                @if (order.status === 'pending' && isOrderExpanded(order.id)) {
+                @if (order.status === 'Pendente' && isOrderExpanded(order.id)) {
+                  <button
+                    (click)="deliveredOrder(order.id)"
+                    class="flex-1 py-3 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-lg transition-colors"
+                  >
+                    Pedido Entregue
+                  </button>
                   <button
                     (click)="cancelOrder(order.id)"
                     class="flex-1 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-colors"
@@ -149,7 +156,7 @@
                     Cancelar Pedido
                   </button>
                 }
-                @if (order.status === 'delivered' && isOrderExpanded(order.id)) {
+                @if (order.status === 'Entregue' && isOrderExpanded(order.id)) {
                   <button
                     (click)="reorder(order.id)"
                     class="flex-1 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors"
