@@ -1,5 +1,6 @@
 package org.api.padariaapi.repository;
 
+import org.api.padariaapi.entity.Compra;
 import org.api.padariaapi.entity.Produto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

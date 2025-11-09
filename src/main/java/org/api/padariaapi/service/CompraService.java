@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CompraService {
@@ -31,10 +32,16 @@ public class CompraService {
 
     @Transactional
     public List<Compra> create(Compra compra) {
-        String cdProduto = compra.getCdProduto();
-        int quantidadeComprada = compra.getQuantidadeComprada();
-        produtoRepository.updateCompra(quantidadeComprada, cdProduto);
         compraRepository.save(compra);
+
+        Map<String, Integer> produtosComprados = compra.getProdutosComprados();
+
+        if (produtosComprados != null && !produtosComprados.isEmpty()) {
+            produtosComprados.forEach((cdProduto, quantidade) -> {
+                produtoRepository.updateCompra(quantidade, cdProduto);
+            });
+        }
+
         return listAll();
     }
 
