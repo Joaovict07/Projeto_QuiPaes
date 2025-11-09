@@ -4,12 +4,9 @@ import {Sobre} from './components/sobre/sobre';
 import {Produtos} from './components/produtos/produtos';
 import {LoginConta} from './components/login-conta/login-conta';
 import {RegistrarConta} from './components/registrar-conta/registrar-conta';
-<<<<<<< HEAD
-=======
 import {Compras} from './main-components/compras/compras';
 import {MeuPerfilComponent} from './components/meu-perfil/meu-perfil';
 import {PedidosComponent} from './main-components/pedidos/pedidos';
->>>>>>> front-end
 
 export const routes: Routes = [
   {
@@ -36,8 +33,6 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegistrarConta
-<<<<<<< HEAD
-=======
   },
   {
     path: 'compras',
@@ -50,6 +45,5 @@ export const routes: Routes = [
   {
     path: 'pedidos',
     component: PedidosComponent
->>>>>>> front-end
   }
 ];

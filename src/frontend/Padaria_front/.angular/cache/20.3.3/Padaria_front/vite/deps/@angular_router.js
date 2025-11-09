@@ -1,13 +1,8 @@
 import {
   Title
-<<<<<<< HEAD
-} from "./chunk-N5DOQUS7.js";
-import "./chunk-3LXUYF2Y.js";
-=======
 } from "./chunk-ZHYSI3U5.js";
 import "./chunk-3LXUYF2Y.js";
 import "./chunk-25CM5PTZ.js";
->>>>>>> front-end
 import {
   HashLocationStrategy,
   LOCATION_INITIALIZED,
