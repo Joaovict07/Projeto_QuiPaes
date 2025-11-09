@@ -11,14 +11,12 @@ export class ProdutosService {
 
   constructor(private http: HttpClient) { }
 
-  // GET - Buscar todos
   getProdutos(): Observable<Produto[]> {
     return this.http.get<ProdutoResponse>(`${this.apiUrl}lista`).pipe(
       map(response => response.dados)
     );
   }
 
-  // GET - Buscar por ID
   getPromos(): Observable<Produto[]> {
     return this.http.get<ProdutoResponse>(`${this.apiUrl}promos`).pipe(
       map(response => response.dados)

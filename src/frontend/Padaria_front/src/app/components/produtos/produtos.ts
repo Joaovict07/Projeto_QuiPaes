@@ -27,6 +27,7 @@ export class Produtos implements OnInit{
   adicionarAoCarrinho(produto: any): void {
     const cartItem: itemCarrinho = {
       id: produto.id,
+      cdProduto: produto.cdProduto,
       name: produto.nomeProduto,
       price: produto.precoProduto,
       quantity: 1,
@@ -48,7 +49,7 @@ export class Produtos implements OnInit{
       error: (err) => {
         this.error = 'Erro ao carregar produtos';
         this.loading = false;
-        console.error('❌ Erro:', err);
+        console.error('Erro:', err);
       }
     });
   }

@@ -39,7 +39,6 @@ export class MeuPerfilComponent implements OnInit {
   }
 
   loadUserData(): void {
-    // 1. Obter dados do localStorage através do serviço (é síncrono)
     const usuario = this.usuarioService.getUsuario();
 
     if (usuario) {

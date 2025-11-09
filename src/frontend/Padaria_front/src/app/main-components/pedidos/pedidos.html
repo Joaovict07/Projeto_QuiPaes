@@ -20,23 +20,23 @@
         Todos
       </button>
       <button
-        (click)="filterStatus = 'pending'"
+        (click)="filterStatus = 'Pendente'"
         [class]="'px-4 py-2 rounded-lg font-semibold transition-colors whitespace-nowrap ' +
-              (filterStatus === 'pending' ? 'bg-orange-500 text-white' : 'bg-white text-amber-900 hover:bg-amber-100')"
+              (filterStatus === 'Pendente' ? 'bg-orange-500 text-white' : 'bg-white text-amber-900 hover:bg-amber-100')"
       >
         Pendentes
       </button>
       <button
-        (click)="filterStatus = 'delivered'"
+        (click)="filterStatus = 'Entregue'"
         [class]="'px-4 py-2 rounded-lg font-semibold transition-colors whitespace-nowrap ' +
-              (filterStatus === 'delivered' ? 'bg-orange-500 text-white' : 'bg-white text-amber-900 hover:bg-amber-100')"
+              (filterStatus === 'Entregue' ? 'bg-orange-500 text-white' : 'bg-white text-amber-900 hover:bg-amber-100')"
       >
         Entregues
       </button>
       <button
-        (click)="filterStatus = 'cancelled'"
+        (click)="filterStatus = 'Cancelado'"
         [class]="'px-4 py-2 rounded-lg font-semibold transition-colors whitespace-nowrap ' +
-              (filterStatus === 'cancelled' ? 'bg-orange-500 text-white' : 'bg-white text-amber-900 hover:bg-amber-100')"
+              (filterStatus === 'Cancelado' ? 'bg-orange-500 text-white' : 'bg-white text-amber-900 hover:bg-amber-100')"
       >
         Cancelados
       </button>
@@ -142,7 +142,7 @@
               }
 
               <div class="mt-6 flex gap-3">
-                @if (order.status === 'pending' && isOrderExpanded(order.id)) {
+                @if (order.status === 'Pendente' && isOrderExpanded(order.id)) {
                   <button
                     (click)="deliveredOrder(order.id)"
                     class="flex-1 py-3 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-lg transition-colors"
@@ -156,7 +156,7 @@
                     Cancelar Pedido
                   </button>
                 }
-                @if (order.status === 'delivered' && isOrderExpanded(order.id)) {
+                @if (order.status === 'Entregue' && isOrderExpanded(order.id)) {
                   <button
                     (click)="reorder(order.id)"
                     class="flex-1 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors"
