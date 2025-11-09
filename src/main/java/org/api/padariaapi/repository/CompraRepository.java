@@ -1,7 +1,6 @@
 package org.api.padariaapi.repository;
 
 import org.api.padariaapi.entity.Compra;
-import org.api.padariaapi.entity.Produto;
 import org.api.padariaapi.entity.enums.StatusCompra;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -17,4 +16,5 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
     @Modifying
     @Query("UPDATE Compra SET statusCompra = :status WHERE idCompra = :id ")
     int updateCompra(@Param("status") StatusCompra status, @Param("id") Long id);
+
 }
