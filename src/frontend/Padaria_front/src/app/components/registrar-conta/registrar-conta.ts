@@ -44,7 +44,8 @@ export class RegistrarConta implements OnInit {
         Validators.required,
         Validators.pattern(/^(\+55\s?)?\((\d{2})\)?\s?9\d{4}-?\d{4}$/)
       ]],
-      endereco: ['', [Validators.required]]
+      endereco: ['', [Validators.required]],
+      cidadeNascimento: ['', [Validators.required]]
     }, { validators: this.senhasIguaisValidator });
   }
 
@@ -133,7 +134,8 @@ export class RegistrarConta implements OnInit {
       funcaoUsuario: 'USUARIO' as const,
       email: formValue.email,
       CPFCNPJ: formValue.cpfCnpj.replace(/\D/g, ''), // Remove máscara
-      senha: formValue.senha
+      senha: formValue.senha,
+      cidadeNascimento: formValue.cidadeNascimento
     };
 
     this.usuarioService.register(dadosRegistro).subscribe({
