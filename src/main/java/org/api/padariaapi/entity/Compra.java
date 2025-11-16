@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.Getter;
 import org.api.padariaapi.entity.enums.StatusCompra;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class Compra {
 
     private String cpfCliente;
 
-    private String DataHora;
+    private LocalDateTime DataHora;
 
     private StatusCompra statusCompra;
 
@@ -39,4 +40,10 @@ public class Compra {
     private Double valorEntrega;
 
     private Double totalPedido;
+
+    @PrePersist // MÉTODO ADICIONADO: Define a data no momento da criação
+    public void prePersist() {
+        this.DataHora = LocalDateTime.now();
+    }
+
 }

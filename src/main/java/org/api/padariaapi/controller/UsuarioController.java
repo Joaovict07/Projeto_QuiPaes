@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -22,6 +23,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
@@ -99,5 +103,31 @@ public class UsuarioController {
         }
     }
 
+    @PutMapping("/atualizarSenha")
+    public ResponseEntity<RespostaApiDTO<String>> atualizarSenha(
+            @RequestBody @Valid AtualizarSenhaDTO senhas,
+            Authentication authentication
+    ){
+        String emailUsuarioLogado = authentication.getName();
+        var usernamePassword = new UsernamePasswordAuthenticationToken(senhas.emailUsuario(), senhas.senhaAntiga());
+        var auth = this.authenticationManager.authenticate(usernamePassword);
+
+        try{
+            usuarioService.atualizarSenha(emailUsuarioLogado, senhas);
+
+            RespostaApiDTO<String> resposta = new RespostaApiDTO<>(
+                    "Senha atualizada com sucesso!",
+                    "Sucesso"
+            );
+            return ResponseEntity.status(HttpStatus.OK).body(resposta);
+        }catch (RuntimeException e){
+            RespostaApiDTO<String> respostaErro = new RespostaApiDTO<>(
+                    e.getMessage(),
+                    "error"
+            );
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(respostaErro);
+        }
+
+    }
 }
 

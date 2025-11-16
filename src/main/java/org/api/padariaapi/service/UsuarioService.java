@@ -2,10 +2,7 @@ package org.api.padariaapi.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.api.padariaapi.dto.AtualizarUsuarioDTO;
-import org.api.padariaapi.dto.LoginResponseDTO;
-import org.api.padariaapi.dto.RegisterDTO;
-import org.api.padariaapi.dto.RetornoDadosUserDTO;
+import org.api.padariaapi.dto.*;
 import org.api.padariaapi.entity.Usuario;
 import org.api.padariaapi.exception.GeneralExceptions;
 import org.api.padariaapi.repository.UsuarioRepository;
@@ -22,7 +19,7 @@ import java.util.List;
 public class UsuarioService {
 
     @Autowired
-        private final UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
     public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder){
@@ -40,7 +37,8 @@ public class UsuarioService {
         }
 
         String senhaCriptografada = passwordEncoder.encode(dadosDeCadastro.senha());
-        Usuario novoUsuario = new Usuario(dadosDeCadastro, senhaCriptografada);
+        String perguntaSegurancaCriptografada = passwordEncoder.encode(dadosDeCadastro.perguntaSeguranca().toLowerCase());
+        Usuario novoUsuario = new Usuario(dadosDeCadastro, senhaCriptografada, perguntaSegurancaCriptografada);
 
         Usuario usuarioSalvo = usuarioRepository.save(novoUsuario);
         return new RetornoDadosUserDTO(usuarioSalvo);
@@ -98,4 +96,16 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
+    @Transactional
+    public Usuario atualizarSenha(String emailUsuarioLogado, AtualizarSenhaDTO senha) {
+        String respostaUsada = senha.respostaSeguranca().toLowerCase();
+        String respostaSalva = usuarioRepository.perguntaSeguranca(emailUsuarioLogado);
+
+        if(!passwordEncoder.matches(respostaUsada.toLowerCase().trim(), respostaSalva)) {
+            throw new RuntimeException("Resposta de Segurança Incorreta" + respostaSalva + " " + respostaUsada);
+        }
+        Usuario usuario = (Usuario) usuarioRepository.findByEmail(emailUsuarioLogado);
+        usuario.setSenha(passwordEncoder.encode(senha.senhaNova()));
+        return usuarioRepository.save(usuario);
+    }
 }

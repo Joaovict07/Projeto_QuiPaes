@@ -72,12 +72,14 @@ public class Usuario implements UserDetails {
 
     private LocalDateTime dataCriacao;
 
+    private String perguntaSeguranca;
+
     @PrePersist // MÉTODO ADICIONADO: Define a data no momento da criação
     public void prePersist() {
         this.dataCriacao = LocalDateTime.now();
     }
 
-    public Usuario(RegisterDTO dto, String senhaCriptografada) {
+    public Usuario(RegisterDTO dto, String senhaCriptografada, String perguntaSegurancaCriptografada) {
         this.nome = dto.nome();
         this.numeroTelefone = dto.telefone();
         this.endereco = dto.endereco();
@@ -85,6 +87,7 @@ public class Usuario implements UserDetails {
         this.email = dto.email();
         this.cpfCnpj = dto.CPFCNPJ();
         this.senha = senhaCriptografada;
+        this.perguntaSeguranca = perguntaSegurancaCriptografada;
     }
 
     //Constructor para login
