@@ -40,6 +40,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/usuarios/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuarios/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/produtos/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/usuarios/atualizarSenha").permitAll()
 
                         // Rotas autenticadas
                         .requestMatchers(HttpMethod.PUT, "/usuarios/atualizar").hasAnyRole("USER", "ADMIN")

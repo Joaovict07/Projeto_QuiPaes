@@ -102,7 +102,7 @@ public class UsuarioService {
         String respostaSalva = usuarioRepository.perguntaSeguranca(emailUsuarioLogado);
 
         if(!passwordEncoder.matches(respostaUsada.toLowerCase().trim(), respostaSalva)) {
-            throw new RuntimeException("Resposta de Segurança Incorreta" + respostaSalva + " " + respostaUsada);
+            throw new RuntimeException("Resposta de Segurança Incorreta");
         }
         Usuario usuario = (Usuario) usuarioRepository.findByEmail(emailUsuarioLogado);
         usuario.setSenha(passwordEncoder.encode(senha.senhaNova()));

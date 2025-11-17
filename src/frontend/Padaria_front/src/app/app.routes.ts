@@ -7,6 +7,7 @@ import {RegistrarConta} from './components/registrar-conta/registrar-conta';
 import {Compras} from './main-components/compras/compras';
 import {MeuPerfilComponent} from './components/meu-perfil/meu-perfil';
 import {PedidosComponent} from './main-components/pedidos/pedidos';
+import {EsqueciMinhaSenha} from './components/esqueci-minha-senha/esqueci-minha-senha';
 
 export const routes: Routes = [
   {
@@ -45,5 +46,9 @@ export const routes: Routes = [
   {
     path: 'pedidos',
     component: PedidosComponent
+  },
+  {
+    path: 'esqueci-minha-senha',
+    component: EsqueciMinhaSenha
   }
 ];

@@ -20,6 +20,13 @@ export interface AtualizarUsuarioDTO {
   endereco?: string;
 }
 
+export interface AtualizarSenhaDTO {
+  emailUsuario?: string;
+  respostaSeguranca?: string;
+  senhaNova?: string;
+  confirmarSenhaNova?: string;
+}
+
 export interface AuthResponse {
   mensagem: string;
   dados: {
@@ -36,6 +43,7 @@ export interface RegisterRequest {
   email: string;
   CPFCNPJ: string;
   senha: string;
+  perguntaSeguranca: string;
 }
 
 export interface RegisterResponse {

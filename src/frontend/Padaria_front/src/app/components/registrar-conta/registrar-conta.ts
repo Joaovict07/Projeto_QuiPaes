@@ -135,7 +135,7 @@ export class RegistrarConta implements OnInit {
       email: formValue.email,
       CPFCNPJ: formValue.cpfCnpj.replace(/\D/g, ''), // Remove máscara
       senha: formValue.senha,
-      cidadeNascimento: formValue.cidadeNascimento
+      perguntaSeguranca: formValue.cidadeNascimento
     };
 
     this.usuarioService.register(dadosRegistro).subscribe({

@@ -7,7 +7,7 @@ import {
   RespostaApi,
   AtualizarUsuarioDTO,
   RegisterRequest,
-  RegisterResponse
+  RegisterResponse, AtualizarSenhaDTO
 } from '../../app/models/usuario.model';
 import {isPlatformBrowser} from '@angular/common';
 
@@ -63,6 +63,20 @@ export class UsuarioService {
     ).pipe(
       tap(response => {
         this.salvarUsuario(response.dados);
+      })
+    );
+  }
+
+  // Atualizar senha do Usuario
+  atualizarSenha(dados: AtualizarSenhaDTO) {
+    return this.http.put<RespostaApi<"Teste">>(
+      `${this.apiUrl}/atualizarSenha`,
+      dados
+    ).pipe(
+      tap(response => {
+        if (response.dados) {
+          this.salvarUsuario(response.dados);
+        }
       })
     );
   }

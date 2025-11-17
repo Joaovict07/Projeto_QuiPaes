@@ -108,12 +108,9 @@ public class UsuarioController {
             @RequestBody @Valid AtualizarSenhaDTO senhas,
             Authentication authentication
     ){
-        String emailUsuarioLogado = authentication.getName();
-        var usernamePassword = new UsernamePasswordAuthenticationToken(senhas.emailUsuario(), senhas.senhaAntiga());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-
+        String emailUsuario = senhas.emailUsuario();
         try{
-            usuarioService.atualizarSenha(emailUsuarioLogado, senhas);
+            usuarioService.atualizarSenha(emailUsuario, senhas);
 
             RespostaApiDTO<String> resposta = new RespostaApiDTO<>(
                     "Senha atualizada com sucesso!",
