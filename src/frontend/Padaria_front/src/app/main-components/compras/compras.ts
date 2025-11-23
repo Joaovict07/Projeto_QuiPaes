@@ -74,7 +74,7 @@ export class Compras implements OnInit{
       this.endereco = this.usuarioService.getUsuario().endereco
       const produtosComprados: Record<string, number> = {}
       this.itensCarrinho.forEach(item => {
-        produtosComprados[JSON.stringify(item.cdProduto)] = item.quantity
+        produtosComprados[item.cdProduto] = item.quantity
       })
       const pedido: PedidosRequest = {
         produtosComprados: produtosComprados,

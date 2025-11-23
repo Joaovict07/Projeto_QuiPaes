@@ -6,6 +6,7 @@ export interface Produto {
   precoProduto: number;
   dataValidade: string;
   flagPromocao: boolean;
+  quantidade: number;
   urlFoto: string;
 }
 

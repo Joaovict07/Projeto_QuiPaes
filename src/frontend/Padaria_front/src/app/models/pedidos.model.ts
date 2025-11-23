@@ -5,6 +5,16 @@ export interface PedidoResponse {
   dados?: Pedido[];
 }
 
+export interface PedidoResponse {
+  token: string;
+  cpfCliente: string;
+  dataHora: string;
+  statusCompra: string;
+  enderecoEntrega: string;
+  valorEntrega: number;
+  totalPedido: number;
+}
+
 export interface RespostaApi<T> {
   mensagem: string;
   dados: T;
@@ -12,10 +22,14 @@ export interface RespostaApi<T> {
 
 export interface PedidosRequest {
   produtosComprados: Record<string, number>,
-  "cpfCliente": string,
-  "dataHora": string,
-  "statusCompra": string,
-  "enderecoEntrega": string,
-  "valorEntrega": number,
-  "totalPedido": number
+  cpfCliente: string,
+  dataHora: string,
+  statusCompra: string,
+  enderecoEntrega: string,
+  valorEntrega: number,
+  totalPedido: number
+}
+
+export interface PedidoUpdate {
+  idCompra: number
 }

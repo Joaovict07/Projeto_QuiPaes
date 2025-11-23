@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject, map, Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
+import {BehaviorSubject, catchError, map, Observable, of, tap} from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Produto, ProdutoResponse} from '../../app/components/produtos/produtos_interface';
-import {Pedido, itemPedido} from '../../app/main-components/pedidos/pedidos'
+import {Pedido} from '../../app/main-components/pedidos/pedidos'
 import { UsuarioService } from '../../services/user/user';
-import {PedidoResponse, PedidosRequest, RespostaApi} from '../../app/models/pedidos.model';
+import {PedidoResponse, PedidosRequest, PedidoUpdate, RespostaApi} from '../../app/models/pedidos.model';
+import {isPlatformBrowser} from '@angular/common';
 
 export interface itemCarrinho {
   id: number;
@@ -22,12 +23,13 @@ export interface itemCarrinho {
 export class Compra {
   private itensCarrinho: itemCarrinho[] = []
   private cartSubject = new BehaviorSubject<itemCarrinho[]>(this.itensCarrinho)
-  private apiUrl = "http://localhost:8080/compras"
+  private apiUrl = "https://projeto-quipaes-api-latest.onrender.com/compras"
   private cpfCnpj = '';
+  private isBrowser: boolean;
 
   cart$ = this.cartSubject.asObservable()
 
-  constructor(private http: HttpClient, private user: UsuarioService) {
+  constructor(private http: HttpClient, private user: UsuarioService, @Inject(PLATFORM_ID) platformId: Object) {
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
       const carrinhoSalvo = localStorage.getItem('cart')
       if (carrinhoSalvo) {
@@ -35,20 +37,68 @@ export class Compra {
         this.cartSubject.next(this.itensCarrinho)
       }
     }
+    this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  getPedidos(): Observable<Pedido[] | undefined> {
+  getToken(): string | null {
+    if (this.isBrowser) {
+      return localStorage.getItem('auth_token');
+    }
+    return null;
+  }
+
+  getPedidos(): Observable<Pedido[]>{
+    const token = this.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    console.log("Token sendo enviado ", token)
+
+    console.log("HEADERS: ", headers)
+
     this.cpfCnpj = this.user.getUsuario().cpfCnpj
-    return this.http.get<PedidoResponse>(`${this.apiUrl}?cpf=${this.cpfCnpj}`).pipe(
-      map(response => response.dados)
-    );
+    return this.http.get<PedidoResponse>(`${this.apiUrl}?cpf=${this.cpfCnpj}`,
+      { headers }).pipe(
+      map(response => response.dados || []),
+      catchError(error => {
+        console.error('Erro na requisição:', error);
+        return of([]);
+      })
+    )
   }
 
   postPedidos(dados: PedidosRequest): Observable<RespostaApi<PedidoResponse>> {
-    console.log("Dados:", dados)
+    const token = this.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
     return this.http.post<RespostaApi<PedidoResponse>>(
       `${this.apiUrl}`,
-      dados
+      dados,
+      { headers }
+    )
+  }
+
+  updatePedidos(dados: Pedido, func: string): Observable<RespostaApi<PedidoUpdate>> {
+    const token = this.getToken()
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type':'application/json'
+    })
+    const data= {
+      idCompra: dados.idCompra
+    }
+    return this.http.put<RespostaApi<PedidoUpdate>>(
+      `${this.apiUrl}/${func}`,
+      data,
+      { headers }
+    ).pipe(
+      tap((response) => {
+        console.log("Deu certo!!!", response)
+      })
     )
   }
 

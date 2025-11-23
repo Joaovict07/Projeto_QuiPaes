@@ -1,28 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import Swal from 'sweetalert2';
-import { ToastrService } from 'ngx-toastr';
-import { Compra, itemCarrinho } from '../../../services/compras/compra'
+import {ToastrService} from 'ngx-toastr';
+import {Compra, itemCarrinho} from '../../../services/compras/compra'
+import {Produto} from '../../components/produtos/produtos_interface';
+import {ProdutosService} from '../../../services/produtos/produtosService'
+import {firstValueFrom} from 'rxjs';
 
 export interface itemPedido {
-  id: number;
+  nomeProduto: string;
   cdProduto: string;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
+  quantidade: number;
+  urlFotoProduto: string;
+  precoProduto: number;
 }
 
 export interface Pedido {
-  id: number;
-  date: Date;
-  status: 'Pendente' | 'Entregue' | 'Cancelado';
-  items: itemPedido[];
+  idCompra: number;
+  dataHora: Date;
+  statusCompra: 'Pendente' | 'Entregue' | 'Cancelado';
+  produtosComprados: itemPedido[];
+  cpfCliente: string;
   subtotal: number;
-  deliveryFee: number;
-  total: number;
-  paymentMethod: string;
-  deliveryAddress?: string;
+  valorEntrega: number;
+  totalPedido: number;
+  enderecoEntrega?: string;
 }
 
 @Component({
@@ -36,8 +38,9 @@ export class PedidosComponent implements OnInit {
   pedidos: Pedido[] = [];
   filterStatus: 'all' | 'Pendente' | 'Entregue' | 'Cancelado' = 'all';
   expandedOrders: Set<number> = new Set();
+  produtosDetalhados: any[] = [];
 
-  constructor(private toastService: ToastrService, private compraService: Compra) {}
+  constructor(private toastService: ToastrService, private compraService: Compra, private produtoService: ProdutosService) {}
 
   ngOnInit() {
     this.compraService.getPedidos().subscribe({
@@ -48,13 +51,19 @@ export class PedidosComponent implements OnInit {
         this.toastService.error("Erro ao carregar os pedidos!", "Erro!")
       }
     })
+    this.produtoService.getProdutos().subscribe({
+      next: (response) => {
+        this.produtosDetalhados = response
+        console.log(response)
+      }
+    })
   }
 
   getFilteredOrders(): Pedido[] {
     if (this.filterStatus === 'all') {
       return this.pedidos;
     }
-    return this.pedidos.filter(pedido => pedido.status === this.filterStatus);
+    return this.pedidos.filter(pedido => pedido.statusCompra === this.filterStatus);
   }
 
   getStatusText(status: string): string {
@@ -75,18 +84,8 @@ export class PedidosComponent implements OnInit {
     return classMap[status] || 'bg-gray-100 text-gray-800';
   }
 
-  formatDate(date: Date): string {
-    return new Intl.DateTimeFormat('pt-BR', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    }).format(date);
-  }
-
   async cancelOrder(pedidoId: number) {
-    const pedido = this.pedidos.find(o => o.id === pedidoId);
+    const pedido = this.pedidos.find(o => o.idCompra === pedidoId);
     const result = await Swal.fire({
       title: "Cancelar Pedido?",
       text: "Tem certeza que deseja cancelar este pedido?",
@@ -98,13 +97,19 @@ export class PedidosComponent implements OnInit {
       cancelButtonText: "Manter este pedido"
     })
     if (pedido && result.isConfirmed) {
-      pedido.status = 'Cancelado';
-      this.toastService.success("Pedido Cancelado com sucesso", "Sucesso")
+      try {
+        pedido.statusCompra = 'Cancelado';
+        await firstValueFrom(this.compraService.updatePedidos(pedido, 'cancelar'));
+        this.toastService.success("Pedido Cancelado com sucesso", "Sucesso");
+      } catch (error) {
+        this.toastService.error("Erro ao cancelar pedido", "Erro");
+        console.error(error);
+      }
     }
   }
 
   async deliveredOrder(pedidoId: number){
-    const pedido = this.pedidos.find(o => o.id === pedidoId);
+    const pedido = this.pedidos.find(o => o.idCompra === pedidoId);
     const result = await Swal.fire({
       title: "Pedido entregue?",
       text: "O seu pedido foi entregue?",
@@ -117,22 +122,28 @@ export class PedidosComponent implements OnInit {
     })
 
     if (pedido && result.isConfirmed) {
-      pedido.status = 'Entregue';
-      this.toastService.success("O status do pedido foi atualizado para entregue", "Sucesso")
+      try {
+        pedido.statusCompra = 'Entregue';
+        await firstValueFrom(this.compraService.updatePedidos(pedido, 'entregar'))
+        this.toastService.success("O status do pedido foi atualizado para entregue", "Sucesso")
+      }catch(error) {
+        this.toastService.error("Erro ao definir o pedido como entregue", "Erro")
+        console.log(error)
+      }
     }
   }
 
   reorder(pedidoId: number): void {
-    const pedido = this.pedidos.find(o => o.id === pedidoId);
+    const pedido = this.pedidos.find(o => o.idCompra === pedidoId);
     if (pedido) {
-      pedido.items.forEach(item => {
+      pedido.produtosComprados.forEach(item => {
         const itemCarrinho: itemCarrinho = {
-          id: item.id,
+          id: 0,
           cdProduto: item.cdProduto,
-          name: item.name,
-          price: item.price,
-          quantity: item.quantity,
-          image: item.image,
+          name: item.nomeProduto,
+          price: item.precoProduto,
+          quantity: item.quantidade,
+          image: item.urlFotoProduto,
           unit: 'un'
         }
 
@@ -154,4 +165,6 @@ export class PedidosComponent implements OnInit {
   isOrderExpanded(pedidoId: number): boolean {
     return this.expandedOrders.has(pedidoId);
   }
+
+  protected readonly JSON = JSON;
 }
