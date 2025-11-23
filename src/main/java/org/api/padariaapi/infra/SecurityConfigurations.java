@@ -62,7 +62,16 @@ public class SecurityConfigurations {
         CorsConfiguration configuration = new CorsConfiguration();
 
         // Origens permitidas
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:4200",
+                "https://projeto-qui-paes-casu9g2tv-joaos-projects-337e3016.vercel.app"
+        ));
+
+        configuration.setAllowedOriginPatterns(Arrays.asList(
+                "http://localhost:4200",
+                "https://*.vercel.app",
+                "https://projeto-qui-paes*.vercel.app" 
+        ));
 
         // Métodos HTTP permitidos
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
