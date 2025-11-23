@@ -33,4 +33,6 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("SELECT quantidade FROM Produto WHERE cdProduto = :cd ")
     int quantidadeProduto( @Param("cd") String cd);
 
+    @Query("SELECT p FROM Produto p WHERE p.cdProduto = :cdProduto")
+    Produto findByCdProduto(@Param ("cdProduto") String cdProduto);
 }

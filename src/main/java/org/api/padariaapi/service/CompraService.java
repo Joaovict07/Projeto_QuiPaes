@@ -1,5 +1,7 @@
 package org.api.padariaapi.service;
 
+import org.api.padariaapi.dto.CompraResponseDTO;
+import org.api.padariaapi.dto.ItemCompraDTO;
 import org.api.padariaapi.entity.Compra;
 import org.api.padariaapi.entity.Produto;
 import org.api.padariaapi.entity.enums.StatusCompra;
@@ -51,10 +53,50 @@ public class CompraService {
         return listAll();
     }
 
-    public List<Compra> listCompras(String cpf) {
-       return compraRepository.findCompraByCpf(cpf);
-    }
+    public List<CompraResponseDTO> listCompras(String cpf) {
+        List<Compra> comprasFeitas = compraRepository.findCompraByCpf(cpf);
 
+        return comprasFeitas.stream().map(compra -> {
+            CompraResponseDTO dto = new CompraResponseDTO();
+            dto.setIdCompra(compra.getIdCompra());
+            dto.setCpfCliente(compra.getCpfCliente());
+            dto.setStatusCompra(compra.getStatusCompra());
+            dto.setEnderecoEntrega(compra.getEnderecoEntrega());
+            dto.setValorEntrega(compra.getValorEntrega());
+            dto.setTotalPedido(compra.getTotalPedido());
+            dto.setDataHora(compra.getDataHora());
+
+            List<ItemCompraDTO> itens = compra.getProdutosComprados().entrySet().stream()
+                    .map(entry -> {
+                        String cdProduto = entry.getKey();
+                        Integer quantidade = entry.getValue();
+
+                        Produto produto = produtoRepository.findByCdProduto(cdProduto);
+
+                        if (produto != null) {
+                            return new ItemCompraDTO(
+                                    produto.getNomeProduto(),
+                                    cdProduto,
+                                    quantidade,
+                                    produto.getUrlFoto(),
+                                    produto.getPrecoProduto()
+                            );
+                        } else {
+                            return new ItemCompraDTO(
+                                    "Produto não encontrado",
+                                    cdProduto,
+                                    quantidade,
+                                    null,
+                                    null
+                            );
+                        }
+                    })
+                    .toList();
+
+            dto.setProdutosComprados(itens);
+            return dto;
+        }).toList();
+    }
     @Transactional
     public List<Compra> compraEntregue(Compra compra) {
         Long idCompra = compra.getIdCompra();

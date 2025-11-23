@@ -1,5 +1,6 @@
 package org.api.padariaapi.controller;
 
+import org.api.padariaapi.dto.CompraResponseDTO;
 import org.api.padariaapi.dto.RespostaApiDTO;
 import org.api.padariaapi.entity.Compra;
 import org.api.padariaapi.entity.Produto;
@@ -31,11 +32,11 @@ public class CompraController {
     }
 
     @GetMapping
-    public ResponseEntity<RespostaApiDTO<List<Compra>>> list(@RequestParam String cpf) {
+    public ResponseEntity<RespostaApiDTO<List<CompraResponseDTO>>> list(@RequestParam String cpf) {
 
-        List<Compra> comprasCliente = compraService.listCompras(cpf);
+        List<CompraResponseDTO> comprasCliente = compraService.listCompras(cpf);
 
-        RespostaApiDTO<List<Compra>> respostaApi = new RespostaApiDTO<>(
+        RespostaApiDTO<List<CompraResponseDTO>> respostaApi = new RespostaApiDTO<>(
                 "Compras cadastradas:",
                 comprasCliente
         );
