@@ -15,7 +15,7 @@ import {isPlatformBrowser} from '@angular/common';
   providedIn: 'root'
 })
 export class UsuarioService {
-  private apiUrl = 'http://localhost:8080/usuarios';
+  private apiUrl = 'https://projeto-quipaes-api-latest.onrender.com/usuarios';
   private isBrowser: boolean;
 
   constructor(

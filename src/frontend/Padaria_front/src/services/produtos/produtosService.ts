@@ -7,7 +7,7 @@ import { Produto, ProdutoResponse} from '../../app/components/produtos/produtos_
   providedIn: 'root'
 })
 export class ProdutosService {
-  private apiUrl = 'http://localhost:8080/produtos/'; // URL da sua API
+  private apiUrl = 'https://projeto-quipaes-api-latest.onrender.com/produtos/';
 
   constructor(private http: HttpClient) { }
 
