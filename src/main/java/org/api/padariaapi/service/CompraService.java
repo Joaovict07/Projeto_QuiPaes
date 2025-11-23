@@ -9,12 +9,10 @@ import org.api.padariaapi.exception.GeneralExceptions;
 import org.api.padariaapi.repository.CompraRepository;
 import org.api.padariaapi.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -36,18 +34,35 @@ public class CompraService {
 
     @Transactional
     public List<Compra> create(Compra compra) {
-        compraRepository.save(compra);
+        compra.setTotalPedido(0.0);
+        double valorTotal = compra.getValorEntrega();
 
         Map<String, Integer> produtosComprados = compra.getProdutosComprados();
 
         if (produtosComprados != null && !produtosComprados.isEmpty()) {
-            produtosComprados.forEach((cdProduto, quantidade) -> {
-                int quantidadeAtual = produtoRepository.quantidadeProduto(cdProduto);
+            for (Map.Entry<String, Integer> entry : produtosComprados.entrySet()) {
+
+                String cdProduto = entry.getKey();
+                Integer quantidade = entry.getValue();
+
+                Produto produtoAtual = produtoRepository.findByCdProduto(cdProduto);
+
+                if (produtoAtual == null) {
+                    throw new GeneralExceptions("Produto não encontrado",  HttpStatus.NOT_FOUND);
+                }
+
+                int quantidadeAtual = produtoAtual.getQuantidade();
+
                 if(quantidadeAtual < quantidade) {
                     throw new GeneralExceptions("Quantidade insuficiente em estoque", HttpStatus.BAD_REQUEST);
                 }
+
+                valorTotal += (produtoAtual.getPrecoProduto() * quantidade);
                 produtoRepository.updateCompra(quantidade, cdProduto);
-            });
+            };
+            compra.setTotalPedido(valorTotal);
+            compraRepository.save(compra);
+
         }
 
         return listAll();
