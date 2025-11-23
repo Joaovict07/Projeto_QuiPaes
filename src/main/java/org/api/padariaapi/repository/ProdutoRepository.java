@@ -30,4 +30,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("UPDATE Produto SET quantidade = quantidade - :qtd WHERE cdProduto = :cd ")
     int updateCompra(@Param("qtd")  int qtd, @Param("cd") String cd);
 
+    @Query("SELECT quantidade FROM Produto WHERE cdProduto = :cd ")
+    int quantidadeProduto( @Param("cd") String cd);
+
 }

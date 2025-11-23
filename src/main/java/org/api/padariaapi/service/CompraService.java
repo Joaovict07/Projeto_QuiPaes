@@ -3,10 +3,12 @@ package org.api.padariaapi.service;
 import org.api.padariaapi.entity.Compra;
 import org.api.padariaapi.entity.Produto;
 import org.api.padariaapi.entity.enums.StatusCompra;
+import org.api.padariaapi.exception.GeneralExceptions;
 import org.api.padariaapi.repository.CompraRepository;
 import org.api.padariaapi.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +40,10 @@ public class CompraService {
 
         if (produtosComprados != null && !produtosComprados.isEmpty()) {
             produtosComprados.forEach((cdProduto, quantidade) -> {
+                int quantidadeAtual = produtoRepository.quantidadeProduto(cdProduto);
+                if(quantidadeAtual < quantidade) {
+                    throw new GeneralExceptions("Quantidade insuficiente em estoque", HttpStatus.BAD_REQUEST);
+                }
                 produtoRepository.updateCompra(quantidade, cdProduto);
             });
         }
