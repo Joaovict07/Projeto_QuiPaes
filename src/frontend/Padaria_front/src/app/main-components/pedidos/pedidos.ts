@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import Swal from 'sweetalert2';
 import {ToastrService} from 'ngx-toastr';
 import {Compra, itemCarrinho} from '../../../services/compras/compra'
-import {Produto} from '../../components/produtos/produtos_interface';
+import {RouterLink} from '@angular/router';
 import {ProdutosService} from '../../../services/produtos/produtosService'
 import {firstValueFrom} from 'rxjs';
 
@@ -30,7 +30,7 @@ export interface Pedido {
 @Component({
   selector: 'app-pedidos',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './pedidos.html',
   styleUrl: './pedidos.css'
 })
