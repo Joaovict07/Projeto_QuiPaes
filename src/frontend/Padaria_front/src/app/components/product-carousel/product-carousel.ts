@@ -20,7 +20,7 @@ interface Product {
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="min-h-screen bg-gradient-to-b from-amber-50 to-orange-50 p-8">
+    <div class="h-140 bg-gradient-to-b from-amber-50 to-orange-50 p-8">
       <div class="max-w-5xl mx-auto">
         <h1 class="text-[2rem] font-bold text-center text-amber-900 mb-2" style="font-family: 'Inter', sans-serif;">
           Nossos Produtos
@@ -64,11 +64,12 @@ interface Product {
             <p class="text-amber-700 text-lg mb-4">
               {{ products[currentIndex].descProduto }}
             </p>
-            <div class="flex items-center justify-between">
-              <span class="text-2xl font-bold text-orange-600">
-                R$ {{ formatarPreco(products[currentIndex].precoProduto)  }}
+
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+              <span class="text-2xl font-bold text-orange-600 w-full md:w-auto text-center md:text-left">
+                R$ {{ formatarPreco(products[currentIndex].precoProduto) }}
               </span>
-              <button (click)="adicionarAoCarrinho(products[currentIndex])" class="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors duration-200">
+              <button (click)="adicionarAoCarrinho(products[currentIndex])" class="w-full md:w-auto px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors duration-200">
                 Adicionar ao Carrinho
               </button>
             </div>

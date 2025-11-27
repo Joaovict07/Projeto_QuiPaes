@@ -93,8 +93,8 @@
       <img [src]="produto.urlFoto" [alt]="produto.nomeProduto">
       <h3>{{ produto.nomeProduto }}</h3>
       <h4>{{ produto.descProduto }}</h4>
-      <p class="preco">R$ {{ formatarPreco(produto.precoProduto) }}</p>
-      <button (click)="adicionarAoCarrinho(produto)" class="mt-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors duration-200">
+      <p class="preco block w-full">R$ {{ formatarPreco(produto.precoProduto) }}</p>
+      <button (click)="adicionarAoCarrinho(produto)" class="block w-full mt-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors duration-200">
         Adicionar ao Carrinho
       </button>
     </div>

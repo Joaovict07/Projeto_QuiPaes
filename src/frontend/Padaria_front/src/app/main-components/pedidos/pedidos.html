@@ -128,7 +128,7 @@
                 <div class="border-t border-amber-200 mt-6 pt-4 space-y-2">
                   <div class="flex justify-between text-amber-800">
                     <span>Subtotal</span>
-                    <span class="font-semibold">R$ {{ order.subtotal.toFixed(2) }}</span>
+                    <span class="font-semibold">R$ {{ (order.totalPedido - order.valorEntrega).toFixed(2) }}</span>
                   </div>
                   <div class="flex justify-between text-amber-800">
                     <span>Taxa de Entrega</span>
